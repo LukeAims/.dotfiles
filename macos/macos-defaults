@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 
-# ~/.macos — https://mths.be/macos
+# Code taken from https://github.com/mathiasbynens/dotfiles/blob/main/.macos.git
+# Original author: mathiasbynens
+# License: MIT
+
+ # Big thanks to him for collecting and compiling these fantastic macOS settings
+
 
 # Close any open System Preferences panes, to prevent them from overriding
 # settings we’re about to change
