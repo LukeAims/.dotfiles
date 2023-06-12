@@ -10,7 +10,7 @@
 
 👋 **Welcome to my personal dotfiles repository!** 
 	
-**These dotfiles are my ongoing project, carefully crafted to enhance and personalize my macOS development environment. While I've aimed to make them compatible with Unix-based systems, please note that there might be some macOS-specific scripts and settings. Feel free to dive in, explore, and make use of any parts that catch your interest. Your feedback and suggestions are always welcome as I continue to refine and improve these dotfiles. Enjoy the customization journey!.**  
+**These dotfiles are my ongoing project, carefully crafted to enhance and personalize my macOS development environment. While I've aimed to make them compatible with Unix-based systems, please note that there are some macOS-specific scripts and settings. Feel free to dive in, explore, and make use of any parts that catch your interest. Your feedback and suggestions are always welcome as I continue to refine and improve these dotfiles. Enjoy the customization journey!.**  
 	
 **This repository includes configuration files for both Z Shell (zsh) and Bash. While I mainly utilize the zsh shell as of 2018, there are instances where I still resort to bash. Rest assured that both the bash and zsh configurations are diligently maintained to ensure optimal performance.**
   
