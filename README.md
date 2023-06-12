@@ -54,7 +54,7 @@ This repository includes the following dotfiles:
 - gitconfig  
 - gitignore_global
 
-**Customization**
+**Customisation**
 
 Feel free to modify these dotfiles according to your preferences. You can add or remove configurations, aliases, or scripts as needed. Remember to update the
 repository if you make any significant changes that you'd like to keep.
