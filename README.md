@@ -1,16 +1,13 @@
 <p align="center">
- <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNDQ1NjI2NDY0MWJiOGE1NWMwMWI2OTFkY2U0ZDgwNmFmZGI5ZmM3YyZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/Bzzb92NKwUOj0FjQOd/giphy.gif" title="Cool Cat!"
+<img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNDQ1NjI2NDY0MWJiOGE1NWMwMWI2OTFkY2U0ZDgwNmFmZGI5ZmM3YyZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/Bzzb92NKwUOj0FjQOd/giphy.gif">
 </p>
 
 # 🤖 Dotfiles  
   
-<div style="display: flex; justify-content: space-between; align-items: center;">
-   <img src="https://img.shields.io/badge/Dotfiles%3A-Version%201.0-blue">  
-   <img src="https://img.shields.io/badge/Author%3A-Luke%20Aimson-blue">  
-   <img src="https://img.shields.io/badge/License%3A-MIT-blue">
-</div>  
+![Version](https://img.shields.io/badge/Dotfiles%3A-Version%201.0-blue) &nbsp;
+![Author](https://img.shields.io/badge/Author%3A-Luke%20Aimson-blue) &nbsp;
+![Licence](https://img.shields.io/badge/License%3A-MIT-blue) &nbsp;  
 
-<br />
 👋 **Welcome to my personal dotfiles repository!**  
 
 **These dotfiles are my ongoing project, carefully crafted to enhance and personalize my macOS development environment. While I've aimed to make them compatible with Unix-based systems, please note that there are some macOS-specific scripts and settings. Feel free to dive in, explore, and make use of any parts that catch your interest. Your feedback and suggestions are always welcome as I continue to refine and improve these dotfiles. Enjoy the customization journey!.**  
