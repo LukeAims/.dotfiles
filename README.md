@@ -1,6 +1,10 @@
 <p align="center">
 <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNDQ1NjI2NDY0MWJiOGE1NWMwMWI2OTFkY2U0ZDgwNmFmZGI5ZmM3YyZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/Bzzb92NKwUOj0FjQOd/giphy.gif">
-</p>
+</p>  
+
+# WARNING  
+
+## PLEASE DON'T USE THESE DOTFILES, AS YET THEY ARE UNFINISHED AND I STILL HAVE WORK TO DO ON SETTING UP THE INSTALL SCRIPTS! When the install scripts are complete and tested I will remove this warning.
 
 # 🤖 Dotfiles  
   
@@ -47,7 +51,7 @@ This repository includes the following dotfiles:
 
 **Shell environment**  
 
-[`.aliases`](.dotfiles/zsh/.aliases) [`.zshrc`](.dotfiles/zsh/zshrc) [`.zshenv`](.dotfiles/zsh/zshenv) [`.zprofile`](.dotfiles/zsh/zprofile) [`.zlogout`](.dotfiles/zsh/zlogout) [`.bash_profile`](.dotfiles/bash/.bash_profile) [`.bash_prompt,`](.dotfiles/bash/.bash_prompt) [`.bashrc,`](.dotfiles/bash/.bashrc) [`functions`](.dotfiles/zsh/functions)  
+[`.aliases`](/zsh/.aliases) [`.zshrc`](/zsh/zshrc) [`.zshenv`](/zsh/zshenv) [`.zprofile`](/zsh/zprofile) [`.zlogout`](/zsh/zlogout) [`.bash_profile`](/bash/.bash_profile) [`.bash_prompt,`](/bash/.bash_prompt) [`.bashrc,`](/.bashrc) [`functions`](/zsh/functions)  
 
 **Git, Configuration** 🤩  
 
