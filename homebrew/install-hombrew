@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Check if Homebrew is already installed
+if command -v brew > /dev/null 2>&1; then
+    echo "Homebrew is already installed."
+else
+    echo "Installing Homebrew..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+
+# Wait until Homebrew is configured
+until brew config > /dev/null 2>&1; do
+    sleep 1
+done
+
+# Perform Homebrew updates and cleanup
+brew update
+brew upgrade
+brew cleanup
+
+# shellcheck source=/dev/null
+source "$HOME/Documents/personal-projects/dotfiles/homebrew/setup-brew-zsh"

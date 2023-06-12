@@ -1,5 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 
-# Command-line calculator that takes a mathematical expression as an argument
-calc() { echo "$@" | bc -l; }
-
+calc() {
+  echo "$*" | bc
+}

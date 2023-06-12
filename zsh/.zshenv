@@ -11,13 +11,26 @@ export LC_ALL="en_GB.UTF-8"
 # Specify the architecture flag for compiling software on macOS. (intel)
 export ARCHFLAGS="-arch x86_64"
 
+# Avoid issues with `gpg` as installed via Homebrew.
+# https://stackoverflow.com/a/42265848/96656
+export GPG_TTY=$(tty);
+
+# Improve color of grep to yellow
+export GREP_COLOR='1;33'
+
 # Tell homebrew to install casks in macos app directory
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 # (macOS-only) Prevent Homebrew from reporting - https://github.com/Homebrew/brew/blob/master/docs/Analytics.md
 export HOMEBREW_NO_ANALYTICS=1
 
-# Improve color of grep to yellow
-export GREP_COLOR='1;33'
+# Enable persistent REPL history for `node`.
+export NODE_REPL_HISTORY=~/.node_history;
+# Allow 32³ entries; the default is 1000.
+export NODE_REPL_HISTORY_SIZE='32768';
+# Use sloppy mode by default, matching web browsers.
+export NODE_REPL_MODE='sloppy';
+# Make Python use UTF-8 encoding for output to stdin, stdout, and stderr.
+export PYTHONIOENCODING='UTF-8';
 
 # XDG Base Specifications (macOS)
 export XDG_CONFIG_HOME="$HOME/.config" \

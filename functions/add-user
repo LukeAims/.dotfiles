@@ -1,17 +1,28 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
-# *** Add a user to linux or macos, depending on system *** #
+# *** Add a user to Linux or macOS, depending on the system *** #
 
 if [[ "$(uname)" == "Darwin" ]]; then
-  add_a_user() {
+  add-user() {
     USER=$1
     PASSWORD=$2
     shift
     shift
     COMMENTS=$*
     echo "Adding user $USER ..."
-    echo sudo dscl . -create /Users/"$USER" Comment "$COMMENTS"
-    echo sudo dscl . -passwd /Users/"$USER" "$PASSWORD"
+
+    # Create the user account
+    sudo dscl . -create /Users/"$USER"
+    sudo dscl . -create /Users/"$USER" UserShell /bin/bash
+    sudo dscl . -create /Users/"$USER" RealName "$COMMENTS"
+    sudo dscl . -create /Users/"$USER" UniqueID "501"
+    sudo dscl . -create /Users/"$USER" PrimaryGroupID "20"
+    sudo dscl . -create /Users/"$USER" NFSHomeDirectory "/Users/$USER"
+    sudo dscl . -passwd /Users/"$USER" "$PASSWORD"
+
+    # Create the user's home directory and set permissions
+    sudo createhomedir -u "$USER" -c 2>&1 >/dev/null
+
     echo "Added user $USER ($COMMENTS) with pass $PASSWORD"
   }
 elif [[ "$(uname)" == "Linux" ]]; then
@@ -23,8 +34,11 @@ elif [[ "$(uname)" == "Linux" ]]; then
     # Having shifted twice, the rest is now comments ...
     COMMENTS=$*
     echo "Adding user $USER ..."
-    echo useradd -c "$COMMENTS, $USER"
-    echo passwd "$USER $PASSWORD"
+    useradd -m -c "$COMMENTS" -s /bin/bash "$USER"
+    echo "$USER:$PASSWORD" | chpasswd
     echo "Added user $USER ($COMMENTS) with pass $PASSWORD"
   }
 fi
+
+# Usage: add_a_user "username" "password" "Full Name"
+add-user "bob" "password" "Bob User"

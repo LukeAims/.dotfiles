@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+# Enable the option for immediate exit if any command in the script fails.
+set -e
+
+# Link dotfiles
+
+# Z Shell Configuration Files
+ln -sfv "$HOME"/.dotfiles/zsh/.zshrc "$HOME"
+ln -sfv "$HOME"/.dotfiles/zsh/.zprofile "$HOME"
+ln -sfv "$HOME"/.dotfiles/zsh/.zshenv "$HOME"
+ln -sfv "$HOME"/.dotfiles/zsh/.zlogout "$HOME"
+
+# Git Configuration Files
+ln -sfv "$HOME"/.dotfiles/git/.gitconfig "$HOME"
+ln -sfv "$HOME"/.dotfiles/git/.gitignore_global "$HOME"
+
+# Vim and Neovim Configuration Files
+ln -sfv "$HOME"/.dotfiles//vim/.vimrc "$HOME"
+
+# Terminal Multiplexer Configuration Files
+ln -sfv "$HOME"/.dotfiles/tmux/.tmux.conf "$HOME"
+
+# Development Configuration Files
+ln -sfv "$HOME"/.dotfiles/eslintrc.js "$HOME"
+ln -sfv "$HOME"/.dotfiles/eslintignore "$HOME"
+ln -sfv "$HOME"/.dotfiles/.prettierrc "$HOME"
+ln -sfv "$HOME"/.prettierignore "$HOME"
+ln -sfv "$HOME"/.editorconfig "$HOME"
+ln -sfv "$HOME"/.screenrc "$HOME"
+ln -sfv "$HOME"/.inputrc "$HOME"

@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Install Zsh (if not already installed)
+if ! command -v zsh >/dev/null 2>&1; then
+    brew install zsh
+    echo "Zsh installed."
+else
+    echo "You already have zsh installed."
+fi
+
+# Add Homebrew-installed shells to the system's list of shells
+sudo dscl . -create /Users/$USER UserShell /usr/local/bin/zsh
+
+# Set Zsh as default shell
+chsh -s /usr/local/bin/zsh
+
+# Script finished
+echo "Congratulations! The script to install zsh has been successfully installed on your system"

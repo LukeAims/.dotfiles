@@ -15,6 +15,7 @@ alias timer="echo 'Timer started. Stop with Ctrl-D.' && date && time cat && date
 
 # in your .bashrc/.zshrc/*rc
 alias bathelp="bat --plain --language=help"
+
 help() {
     "$@" --help 2>&1 | bathelp
 }
@@ -36,7 +37,7 @@ alias library="cd $HOME/Library"
 alias personal="$HOME/Documents/personal-projects"
 
 # Google Chrome
-alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
+# alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 
 # *** Shell and system properties *** #
 
@@ -58,7 +59,7 @@ alias brewzsh="sudo dscl . -create /Users/$USER UserShell /usr/local/bin/zsh"
 # Open config files
 alias hosts="sudo vim /etc/hosts"
 alias zconf="vim $HOME/.dotfiles/.zshrc"
-alias zpconf="vim $HOMME/.dotfiles/.zprofile"
+alias zpconf="vim $HOME/.dotfiles/.zprofile"
 alias zenv="vim $HOME/.dotfiles/.zshenv"
 alias bashrc="vim $HOME/.dotfiles/.bashrc"
 alias bashpro="code $HOME/.dotfiles/.bashrc_profile"
@@ -77,6 +78,10 @@ alias copy="tr -d '\n' | pbcopy"
 alias pubkey="more ~/.ssh/personal-github.pub | pbcopy | printf '=> Public key copied to pasteboard.\n'"
 
 # *** Directories and history information *** #
+
+command-history() {
+    history | awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl | head -n10
+}
 
 # Disable Spotlight
 alias spotoff="sudo mdutil -a -i off"
@@ -195,9 +200,18 @@ alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && 
 alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
 
 # Canonical hex dump; some systems have this symlinked
-command -v hd > /dev/null || alias hd="hexdump -C"
+command -v hd >/dev/null || alias hd="hexdump -C"
+
+# Automatically list directory content when changing directory
+cd() {
+    builtin cd "$@" && ls -la
+}
 
 # *** Network information #
+
+list-network() {
+    lsof -i -P -n | awk '/LISTEN/ {print "\033[0;33m" $0 "\033[0m"; next} /ESTABLISHED/ {print "\033[0;32m" $0 "\033[0m"; next} {print "\033[0;31m" $0 "\033[0m"}' | column -t
+}
 
 # List open network connections
 alias listopen="lsof -i | grep -E '(LISTEN|ESTABLISHED)'"

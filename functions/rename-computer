@@ -1,0 +1,23 @@
+#!/bin/bash
+
+## Laptop or Desktop
+TYPE=$(system_profiler SPHardwareDataType | grep -i "MacBook" | wc -l)
+[[ $TYPE -gt 0 ]] && T="macbook" || T="imac"
+
+## Get the Serial Number
+SERIAL=$(system_profiler SPHardwareDataType | grep -i Serial | grep -i system | awk '{print $NF}' | cut -c5-)
+
+## Put it all together now...
+NEWNAME="${T}-${SERIAL}"
+
+## Name the computers
+scutil --set ComputerName "MacBook-Lukema82"
+scutil --set HostName "$NEWNAME"
+scutil --set LocalHostName "$NEWNAME"
+
+## Create dummy receipt to mark complete
+touch /Library/Receipts/com.computer.renameComplete.bom
+
+## Update Inventory (Only required if jamf is installed)
+# /usr/local/bin/jamf recon
+

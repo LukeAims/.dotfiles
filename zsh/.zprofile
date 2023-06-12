@@ -15,7 +15,10 @@ PATH="$(perl -e 'print join(":", grep { not $seen{$_}++ } split(/:/, $ENV{PATH})
 export PATH="/usr/bin:/bin:/usr/sbin:/sbin"
 
 # Prepend homebrew installed packaged to the PATH variable
-export PATH=/usr/local/bin:$PATH
+export PATH=/usr/local/bin:${PATH}
+
+# Store shell functions and scripts that you want to append to your path 
+export PATH="$PATH:$HOME/.local/bin"
 
 # Set up the necessary environment variables for Homebrew
 eval "$(/usr/local/bin/brew shellenv)"
