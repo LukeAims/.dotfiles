@@ -13,12 +13,10 @@
 **These dotfiles are my ongoing project, carefully crafted to enhance and personalize my macOS development environment. While I've aimed to make them compatible with Unix-based systems, please note that there are some macOS-specific scripts and settings. Feel free to dive in, explore, and make use of any parts that catch your interest. Your feedback and suggestions are always welcome as I continue to refine and improve these dotfiles. Enjoy the customization journey!.**  
 
 **This repository includes configuration files for both Z Shell (zsh) and Bash. While I mainly utilize the zsh shell as of 2018, there are instances where I still resort to bash. Rest assured that both the bash and zsh configurations are diligently maintained to ensure optimal performance.**
-  
-<br>
 
 ***Warning: If you're interested in trying out these dotfiles, I recommend forking this repository, carefully reviewing the code, and removing any elements that don't align with your preferences. It's important not to blindly adopt my settings unless you fully understand their implications. Please use them at your own risk! This script will facilitate the installation of Homebrew, Zsh, and some of my preferred applications. It will also create symbolic links to the dotfiles in your home directory (~/) and configure everything accordingly."***
 
-**TODO - Upload bash configureation files**  
+**TODO - Upload bash configuration files**  
 **TODO - Add description of what files and settings are added or changed**
 
 ### Installation Instructions
