@@ -51,7 +51,7 @@ This repository includes the following dotfiles:
 
 **Shell environment**  
 
-[`aliases`](zsh/.aliases) [`zshrc`](zsh/.zshrc) [`zshenv`](zsh/.zshenv) [`zprofile`](zsh/.zprofile) [`zlogout`](zsh/zlogout) [`bash_profile`](bash/.bash_profile) [`bash_prompt,`](bash/.bash_prompt) [`bashrc,`](bash/.bashrc) [`functions`](zsh/functions)  
+[`aliases`](zsh/.aliases.zsh) [`zshrc`](zsh/.zshrc) [`zshenv`](zsh/.zshenv) [`zprofile`](zsh/.zprofile) [`zlogout`](zsh/.zlogout) [`bash_profile`](bash/.bash_profile) [`bash_prompt,`](bash/.bash_prompt) [`bashrc,`](bash/.bashrc) [`functions`](/functions)  
 
 **Git, Configuration** 🤩  
 
