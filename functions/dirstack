@@ -1,0 +1,23 @@
+#!/bin/zsh
+
+autoload -Uz add-zsh-hook
+
+DIRSTACKFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/dirs"
+if [[ -f "$DIRSTACKFILE" ]] && (( ${#dirstack[@]} == 0 )); then
+    dirstack=("${(f)"$(< "$DIRSTACKFILE")"}")
+    [[ -d "${dirstack[1]}" ]] && cd -- "${dirstack[1]}" || exit
+fi
+chpwd_dirstack() {
+    print -l -- "$PWD" "${(u)dirstack[@]}" > "$DIRSTACKFILE"
+}
+add-zsh-hook chpwd chpwd_dirstack
+
+DIRSTACKSIZE=20
+
+setopt auto_pushd pushd_silent pushd_to_home
+
+## Remove duplicate entries
+setopt pushd_ignore_dups
+
+## This reverts the +/- operators.
+setopt pushd_minus

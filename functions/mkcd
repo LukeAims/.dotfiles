@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Creates any number of directories or nested directories using the `mkdir` command with the given
+# arguments, then changes the current directory using the `cd` command to the newly created directory
+# Usage, (d) (d/d1/d2/etc..) (d d2 d3 etc...)
+
+mkcd() {
+    if [ $# -gt 0 ]; then
+        mkdir -p "$@" && cd "$@" || return
+    else
+        echo "No directory name provided. Usage: mkcd <dir> [subdir]..."
+    fi
+}
+
+# create a new file in the current directory and then open it
+newFile () {
+    sudo touch $1 && open $1
+}

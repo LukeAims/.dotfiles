@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# The clicolors function prints a colour chart with corresponding colour numbers (0 - 255) 
+# providing a visual representation of available terminal colours.
+
+function clicolors() {
+    for color in {0..255}; do
+        printf "\x1b[38;5;%sm%3s\x1b[0m" "$color" "$color"
+        printf "  "
+        printf "\x1b[38;5;%sm✔\x1b[0m" "$color"
+        if [ $((color % 8)) -eq 7 ]; then
+            printf "\n"
+        else
+            printf "  "
+        fi
+    done
+    echo
+}
+

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Command-line calculator that takes a mathematical expression as an argument
+calc() { echo "$@" | bc -l; }
+
