@@ -28,6 +28,7 @@ Temporary Items
 
 # Git files
 .gitconfig
+.gitignore_global
 
 # Vim       taken from: https://github.com/github/gitignore/blob/master/Global/vim.gitignore
 [._]*.s[a-w][a-z]
@@ -39,4 +40,5 @@ Session.vim
 
 # Custom files
 .prettierignore
+.prettierrc
 settings.json

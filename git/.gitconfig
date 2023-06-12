@@ -2,39 +2,35 @@
   whitespace = fix
 
 [branch]
-	# Show most recently changed branches first.
-	sort = -committerdate
+# Show most recently changed branches first.
+  sort = -committerdate
 
 [core]
-  # Ensure that the line endings in the repository are consistent, regardless of the platform
+# Ensure that the line endings in the repository are consistent, regardless of the platform
   autocrlf = input
-  editor = vim
-  excludesfile = ~/.gitignore_global
-  excludesfile = ~/.gitignore
+	editor = vim --nofork
+  excludesfile = /Users/lukeaimson/.gitignore_global
+  
+# Treat spaces before tabs and all kinds of trailing whitespace as an error.
+# [default] trailing-space: looks for spaces at the end of a line
+# [default] space-before-tab: looks for spaces before tabs at the beginning of a line
+  whitespace = space-before-tab,-indent-with-non-tab,trailing-space
 
-	# Treat spaces before tabs and all kinds of trailing whitespace as an error.
-	# [default] trailing-space: looks for spaces at the end of a line
-	# [default] space-before-tab: looks for spaces before tabs at the beginning of a line
-	whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+# Make `git rebase` safer on macOS.
+# More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
+  trustctime = false
 
-	# Make `git rebase` safer on macOS.
-	# More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
-	trustctime = false
+# Prevent showing files whose names contain non-ASCII symbols as unversioned.
+# http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
+  precomposeunicode = false
 
-	# Prevent showing files whose names contain non-ASCII symbols as unversioned.
-	# http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
-	precomposeunicode = false
-
-	# Speed up commands involving untracked files such as `git status`.
-	# https://git-scm.com/docs/git-update-index#_untracked_cache
-	untrackedCache = true
+# Speed up commands involving untracked files such as `git status`.
+# https://git-scm.com/docs/git-update-index#_untracked_cache
+untrackedCache = true
+config = /Users/lukeaimson/.gitconfig
 
 [color]
-  ui = auto
-
-[commit]
-	# https://help.github.com/articles/signing-commits-using-gpg/
-	gpgsign = true
+	ui = true
 
 [color "status"]
   added = yellow
@@ -42,7 +38,7 @@
   untracked = cyan
 
 [color "branch"]
-  current = yellow bold 
+  current = yellow bold
   local = brightyellow
   remote = green
   error = brightred bold
@@ -66,12 +62,9 @@
 [fetch]
   prune = true
 
-[git-graph]
-    colors = red,green,blue,white,magenta,yellow,black,cyan,lightcyan,lightmagenta,lightred,lightgreen,lightblue,lightwhite,lightyellow
-
 [help]
-	# Automatically correct and execute mistyped commands.
-	autocorrect = 1
+# Automatically correct and execute mistyped commands.
+  autocorrect = 1
 
 [init]
   defaultBranch = main
@@ -88,3 +81,8 @@
 [user]
   email = l.m.aimson@gmail.com
   name = LukeAims
+
+[web]
+	browser = ch
+  [browser "ch"]
+	  cmd = open -a \"/Applications/Google Chrome.app\"
