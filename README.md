@@ -1,38 +1,49 @@
-# Dotfiles
+<p align="center">
+	<img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNDQ1NjI2NDY0MWJiOGE1NWMwMWI2OTFkY2U0ZDgwNmFmZGI5ZmM3YyZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/Bzzb92NKwUOj0FjQOd/giphy.gif" title="Cool Cat!"
+</p>
 
-## These are my personal dotfiles and are a work in progress, they include various configuration files and scripts that I use to customize my macOS development environment. I have tried to keep them compatible with all Unix biased systems but there will be some macOS specific scripts and settings. Feel free to explore and use any parts that you find useful.  
+# 🤖 Dotfiles 
+	
+	Auther: Luke Aimson
+	License: MIT
+	Version: 1.0
 
-### Warning: If you want to give these dotfiles a try, you should first fork this repository, review the code, and remove things you don’t want or need.  Don’t blindly use my settings unless you know what that entails. Use at your own risk! This script will install hombrew, zsh and some of my applications. As well as create symbolic links to the dotfiles in your home directory (~/) and set up the necessary configurations.
- 
-#### shell
+👋 **Welcome to my personal dotfiles repository!** 
+	
+**These dotfiles are my ongoing project, carefully crafted to enhance and personalize my macOS development environment. While I've aimed to make them compatible with Unix-based systems, please note that there might be some macOS-specific scripts and settings. Feel free to dive in, explore, and make use of any parts that catch your interest. Your feedback and suggestions are always welcome as I continue to refine and improve these dotfiles. Enjoy the customization journey!.**  
+	
+**This repository includes configuration files for both Z Shell (zsh) and Bash. While I mainly utilize the zsh shell as of 2018, there are instances where I still resort to bash. Rest assured that both the bash and zsh configurations are diligently maintained to ensure optimal performance.**
+  
+<br>
+	
+***Warning: If you're interested in trying out these dotfiles, I recommend forking this repository, carefully reviewing the code, and removing any elements that don't align with your preferences. It's important not to blindly adopt my settings unless you fully understand their implications. Please use them at your own risk! This script will facilitate the installation of Homebrew, Zsh, and some of my preferred applications. It will also create symbolic links to the dotfiles in your home directory (~/) and configure everything accordingly."***
 
-This repo contains config for Z Shell (zsh) and bash. As of 2018, I primarily use zsh shell, but occasionally fall back to bash.
-The bash and zsh configs are both well maintained.
-
-#### Installation Instructions
+**TODO - Upload bash configureation files**  
+**TODO - Add description of what files and settings are added or changed**
+	
+### Installation Instructions
 
 To install these dotfiles on your system, follow these steps:
 
-##### Clone this repository
+**Clone this repository**
 
 ```
-git clone https://github.com/your-username/dotfiles.git
-Change into the dotfiles directory:
+git clone https://github.com/LukeAims/.dotfiles.git
 ```
 
-##### Change into dotfiles directory
+**Change into the dotfiles directory:**
 
 ```
 cd dotfiles
 ```
 
-##### Run the installation scripts:  
+**Run the installation scripts:**  
   
 ```
 (./master-install.sh)
 ```  
 
-##### Overview of files
+**Overview of files**
 
 This repository includes the following dotfiles:
 
@@ -40,19 +51,17 @@ This repository includes the following dotfiles:
 
 [`.aliases`](.dotfiles/zsh/.aliases) [`.zshrc`](.dotfiles/zsh/zshrc) [`.zshenv`](.dotfiles/zsh/zshenv) [`.zprofile`](.dotfiles/zsh/zprofile) [`.zlogout`](.dotfiles/zsh/zlogout) [`.bash_profile`](.dotfiles/bash/.bash_profile) [`.bash_prompt,`](.dotfiles/bash/.bash_prompt) [`.bashrc,`](.dotfiles/bash/.bashrc) [`functions`](.dotfiles/zsh/functions)  
 
-**Git, Configuration** 🤩
+**Git, Configuration** 🤩  
+	
+	- gitconfig  
+	- gitignore_global
 
-- gitconfig
-- gitignore_global
-
-#### * TODO - Add description of what files and settings are added or changed
-
-#### Customization
+**Customization**
 
 Feel free to modify these dotfiles according to your preferences. You can add or remove configurations, aliases, or scripts as needed. Remember to update the
 repository if you make any significant changes that you'd like to keep.
 
-#### Credits
+**Credits**
 
 These dotfiles are inspired by various sources and the work of many talented developers. I'd like to acknowledge their contributions and thank them for sharing
 their knowledge.
@@ -65,8 +74,6 @@ Some notable inspirations include:
 - <https://github.com/thoughtbot/dotfiles>
 - <https://github.com/paulirish/dotfiles>
 
-#### License
+**License**
 
 This project is licensed under the MIT License. Feel free to use and modify these dotfiles as you see fit.
-
-If you have any questions or suggestions, please feel free to open an issue or contact me. Enjoy! 👌🏻
