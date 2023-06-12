@@ -21,11 +21,15 @@ ln -sfv "$HOME"/.dotfiles//vim/.vimrc "$HOME"
 # Terminal Multiplexer Configuration Files
 ln -sfv "$HOME"/.dotfiles/tmux/.tmux.conf "$HOME"
 
-# Development Configuration Files
+# Development Configuration Files 
 ln -sfv "$HOME"/.dotfiles/eslintrc.js "$HOME"
 ln -sfv "$HOME"/.dotfiles/eslintignore "$HOME"
-ln -sfv "$HOME"/.dotfiles/.prettierrc "$HOME"
-ln -sfv "$HOME"/.prettierignore "$HOME"
-ln -sfv "$HOME"/.editorconfig "$HOME"
-ln -sfv "$HOME"/.screenrc "$HOME"
-ln -sfv "$HOME"/.inputrc "$HOME"
+ln -sfv "$HOME"/.dotfiles/.prettierrc.json "$HOME"
+ln -sfv "$HOME"/.dotfiles/.prettierignore "$HOME"
+ln -sfv "$HOME"/.dotfiles/.editorconfig "$HOME"
+ln -sfv "$HOME"/.dotfiles/.screenrc "$HOME"
+ln -sfv "$HOME"/.dotfiles/.inputrc "$HOME"
+
+# Command-line tools used for downloading files from the internet. 
+ln -sfv "$HOME"/.dotfiles/.wgetrc "$HOME"
+ln -sfv "$HOME"/.dotfiles/.curlrc "$HOME"
