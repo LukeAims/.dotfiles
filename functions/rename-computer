@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/local/bin/zsh
 
 ## Laptop or Desktop
 TYPE=$(system_profiler SPHardwareDataType | grep -i "MacBook" | wc -l)
@@ -20,4 +20,3 @@ touch /Library/Receipts/com.computer.renameComplete.bom
 
 ## Update Inventory (Only required if jamf is installed)
 # /usr/local/bin/jamf recon
-
