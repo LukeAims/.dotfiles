@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/local/bin/zsh
 
 # *** Add a user to Linux or macOS, depending on the system *** #
 
