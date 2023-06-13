@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/local/bin/zsh
 
 # Allows you to make .zsh_config files for any project directory, and then when you cd to that
 # directory, zsh will read the .zsh_config file and use those settings
