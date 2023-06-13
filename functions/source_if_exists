@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/local/bin/zsh
 
 source_if_exists() {
     if test -r "$1"; then
