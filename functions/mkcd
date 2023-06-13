@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/local/bin/zsh
 
 # Creates any number of directories or nested directories using the `mkdir` command with the given
 # arguments, then changes the current directory using the `cd` command to the newly created directory
