@@ -1,3 +1,5 @@
+#!/usr/local/bin/zsh
+
 # Remember the DIRSTACKSIZE last visited folders
 
 autoload -Uz add-zsh-hook
