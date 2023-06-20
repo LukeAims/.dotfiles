@@ -1,0 +1,6 @@
+[submodule "neofetch/neofetch/neofetch-themes"]
+	path = neofetch/neofetch/neofetch-themes
+	url = https://github.com/dylanaraps/neofetch.git
+[submodule "neofetch/neofetch-themes"]
+	path = neofetch/neofetch-themes
+	url = https://github.com/Chick2D/neofetch-themes.git

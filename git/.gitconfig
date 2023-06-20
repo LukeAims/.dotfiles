@@ -1,4 +1,5 @@
 [apply]
+# Detect whitespace errors when applying a patch.
   whitespace = fix
 
 [branch]
@@ -6,11 +7,6 @@
   sort = -committerdate
 
 [core]
-# Ensure that the line endings in the repository are consistent, regardless of the platform
-  autocrlf = input
-	editor = vim --nofork
-  excludesfile = /Users/lukeaimson/.gitignore_global
-  
 # Treat spaces before tabs and all kinds of trailing whitespace as an error.
 # [default] trailing-space: looks for spaces at the end of a line
 # [default] space-before-tab: looks for spaces before tabs at the beginning of a line
@@ -26,8 +22,14 @@
 
 # Speed up commands involving untracked files such as `git status`.
 # https://git-scm.com/docs/git-update-index#_untracked_cache
-untrackedCache = true
-config = /Users/lukeaimson/.gitconfig
+  untrackedCache = true
+
+# Ensure that the line endings in the repository are consistent, regardless of the platform
+  autocrlf = input
+
+  editor = vim --nofork
+  config = /Users/lukeaimson/.gitconfig
+  excludesfile = /Users/lukeaimson/.gitignore_global
 
 [color]
 	ui = true
@@ -58,6 +60,13 @@ config = /Users/lukeaimson/.gitconfig
 
 [diff]
   colorMoved = zebra
+	# Detect copies as well as renames.
+	renames = copies
+
+[diff "bin"]
+
+	# Use `hexdump` to diff binary files.
+	textconv = hexdump -v -C
 
 [fetch]
   prune = true
@@ -68,6 +77,9 @@ config = /Users/lukeaimson/.gitconfig
 
 [init]
   defaultBranch = main
+
+[include]
+	path = /Users/lukeaimson/.gitignore
 
 [push]
   default = current
