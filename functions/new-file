@@ -1,6 +1,7 @@
 #!/usr/local/bin/zsh
 
 # create a new file in the current directory and then open it
-add-file () {
+
+add-file() {
     touch "$1" && open "$1"
 }

@@ -1,0 +1,7 @@
+# Measures the total execution time of zsh, including the time taken by the command itself and any subprocesses it may spawn and displays the process id
+
+function time-zsh-pid {
+  for i in $(seq 1 10); do
+      { { time /usr/local/bin/zsh -i -c 'echo $$ && exit'; } 2>&1 && echo; } | awk '{ORS=(NR%2? FS:RS)}1' | sort
+done
+}

@@ -100,10 +100,10 @@ alias ip="ip --color=auto"
 alias pacman="pacman --color=auto"
 
 # LS Commands
-alias ls="ls -F"
+alias ls="ls -f"
 alias la="ls -lA"
 alias lsh="ls -lah"
-alias lsa="ls -Flh"
+alias lsa="ls -flh"
 # Only show dot-directories
 alias lsd="ls -dl -- .*(/)"
 # Only show dot-files
@@ -312,3 +312,5 @@ alias ghelp="git help"
 alias glog="git log"
 alias glogsc="git log --stat --color"
 alias gloggc="git log --graph --color"
+# View abbreviated SHA, description, and history graph of the latest 20 commits.
+alias glogol="git log --pretty=oneline -n 20 --graph --abbrev-commit"

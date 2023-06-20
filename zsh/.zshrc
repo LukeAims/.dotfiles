@@ -4,28 +4,28 @@
 # ****                                     Environment Variables                                       **** #
 #############################################################################################################
 
-export VISUAL=nvim
-export GIT_EDITOR=nvim
+export VISUAL="nvim"
+export GIT_EDITOR="nvim"
 
 # Set preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR=vim
+  export EDITOR="vim"
 else
-  export EDITOR=$VISUAL
+  export EDITOR="$VISUAL"
 fi
 
 # Browser
-export BROWSER="google chrome"
+export BROWSER="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 
 # Enable colorized output
-export CLICOLOR=true
+export CLICOLOR="true"
 # Enabled true color support for terminals (nvim)
-export NVIM_TUI_ENABLE_TRUE_COLOR=1
+export NVIM_TUI_ENABLE_TRUE_COLOR="1"
 # Display a wider range of colors (vim)
-export VIM_TUI_ENABLE_TRUE_COLOR=1
+export VIM_TUI_ENABLE_TRUE_COLOR="1"
 
 # Terminal
-export TERMINAL=iTerm2
+export TERMINAL="iTerm2"
 export ITERM_24BIT="1"
 export REPORTTIME="2"
 export TIMEFMT="%U user %S system %P cpu %*Es total"
@@ -54,9 +54,9 @@ HOMEBREW_FOLDER="/usr/local/share"
 # TMUX Settings
 
 # Auto start tmux
-ZSH_TMUX_AUTOSTART=true
+ZSH_TMUX_AUTOSTART="true"
 # Automatically connect to a previous session if it exists
-ZSH_TMUX_AUTOCONNECT=true
+ZSH_TMUX_AUTOCONNECT="true"
 
 ##############################################################################################################
 # ****                                        Required Sources                                          **** #

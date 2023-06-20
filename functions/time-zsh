@@ -1,0 +1,5 @@
+# Measures the total execution time of zsh, including the time taken by the command itself and any subprocesses it may spawn
+
+function time-zsh() {
+  for i in $(seq 1 10); do /usr/bin/time /usr/local/bin/zsh -i -c exit; done
+}

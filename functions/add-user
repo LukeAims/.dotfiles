@@ -1,6 +1,10 @@
-#!/usr/local/bin/zsh
+# shellcheck disable=SC1071
+
+# Usage: add_a_user "username" "password" "Full Name"
+# eg add-user "bob" "password" "Bob User"
 
 # *** Add a user to Linux or macOS, depending on the system *** #
+function add_a_user() {
 
 if [[ "$(uname)" == "Darwin" ]]; then
   add-user() {
@@ -40,5 +44,4 @@ elif [[ "$(uname)" == "Linux" ]]; then
   }
 fi
 
-# Usage: add_a_user "username" "password" "Full Name"
-add-user "bob" "password" "Bob User"
+}
