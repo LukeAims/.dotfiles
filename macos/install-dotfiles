@@ -28,8 +28,8 @@ set -e
 cd "$(dirname $0)"/..
 
 # To test the install order without installing anything uncomment this command and comment out the next command
-# find . -name 'install-dotfiles'| sort -t- -k2n | while read -r installer; do echo "Installing: $installer"; done
+# find . -name 'bootstrap.sh'| sort -t- -k2n | while read -r installer; do echo "Installing: $installer"; done
 
 # Run all scripts named install in the current directory and subdirectories 
 # (Executes them in order of the directory structure)
-find . -name 'install-dotfiles' | sort -t- -k2n | while read -r installer; do sh -c "${installer}"; done
+find . -name 'bootstrap.sh' | sort -t- -k2n | while read -r installer; do sh -c "${installer}"; done

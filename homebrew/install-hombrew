@@ -17,6 +17,3 @@ done
 brew update
 brew upgrade
 brew cleanup
-
-# shellcheck source=/dev/null
-source "$HOME/Documents/personal-projects/dotfiles/homebrew/setup-brew-zsh"

@@ -5,8 +5,8 @@
 
 # Check if Homebrew installation was successful
 if command -v brew >/dev/null 2>&1; then
-    # Homebrew installed, run install-zsh script and wait for it to finish
-    ./brew-install-zsh &&
+    # Homebrew installed, run brew-zsh script and wait for it to finish
+    ./brew-zsh &&
 
     # Check if zsh installation was successful
     if command -v zsh >/dev/null 2>&1; then
@@ -20,4 +20,3 @@ else
     echo "Homebrew installation failed."
     exit 1
 fi
-

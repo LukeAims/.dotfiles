@@ -1,0 +1,93 @@
+#!/bin/bash
+
+# Tap our repositories
+tap "homebrew/bundle"
+tap "homebrew/core"
+tap "homebrew/dev-tools"
+tap "homebrew/cask-fonts"
+tap "homebrew/cask-drivers"
+tap 'homebrew/cask-versions'
+tap ""
+
+# Set arguments for all 'brew install --cask' commands
+cask_args appdir: "~/Applications", require_sha: true
+
+# To maintain cask ....
+brew update && brew cleanup
+
+##### Install my binaries
+
+## Core/Dotfiles
+brew "binutils"              # Collection of binary tools, including GNU version of 'ld'
+brew "coreutils"             # GNU core utilities
+brew "diffutils"             # Collection of file comparison utilities
+brew "ed"                    # Classic UNIX line editor
+brew "glances"               # CLI system monitor written in Python
+brew "gnu-indent"            # C code prettifier
+brew "gnu-sed"               # GNU implementation of sed, a stream editor
+brew "gnu-tar"               # GNU version of the tar archiving utility
+brew "gawk"                  # GNU implementation of AWK programming language
+brew "grep"                  # GNU grep, egrep, and fgrep
+brew "gzip"                  # GNU file compression utility
+brew "less"                  # Pager program similar to more or pg
+brew "pcre"                  # Perl Compatible Regular Expressions (PCRE) library
+brew "pcre2"                 # Perl Compatible Regular Expressions (PCRE) version 2 library
+brew "xz"                    # General-purpose data compression with high compression ratio
+brew "zlib"                  # General-purpose data compression library
+brew "pkg-config"            # A helper tool used when compiling applications and libraries.
+
+##### Install required tools
+
+## File System/Network
+brew "bat"                   # Cat clone with syntax highlighting and Git integration
+brew "croc"                  # Command-line file transfer utility
+brew "curl"                  # Command-line tool for transferring data with URLs
+brew "httpie"                # User-friendly command-line HTTP client
+brew "mackup"                # Backup and restore application settings
+brew "neofetch"              # CLI system information tool
+brew "ssh-copy-id"           # Add a public key to a remote machine's authorized_keys file
+brew "tree"                  # Display directories as trees (with optional color/HTML output)
+brew "wget"                  # Internet file retriever
+brew "openssl"               # SSL/TLS cryptography library
+
+##### Git and GitHub CLI
+
+## GitHub CLI
+brew "gh"                    # GitHub CLI
+brew "git"                   # Git version control
+brew "git-lfs"               # Git extension for versioning large files
+
+##### Shell and system setup
+
+## Development Tools
+cask "iterm2"                # Terminal emulator
+cask "visual-studio-code"    # VS Code IDE
+brew "bash"                  # Bash is the Bourne Again SHell. Bash is an sh-compatible shell.
+brew "fzf"                   # Fuzzy file finder and filtering
+brew "neovim"                # Text editor replacement for vim
+brew "tmux"                  # Tmux is a newer terminal multiplexer.
+
+## Autosuggest, Completion, and Syntax Highlighting
+brew "bash-completion"       # Programmable completion for Bash
+brew "zsh-autosuggestions"   # Fish-like autosuggestions for Zsh
+brew "zsh-completions"       # Additional completion definitions for Zsh
+brew "zsh-syntax-highlighting" # Fish-like syntax highlighting for Zsh
+
+## Languages/Tools
+brew "pyenv"                 # Python version management
+brew "readline"              # Library for command-line editing
+brew "shellcheck"            # Static analysis tool for shell scripts
+brew "sqlite3"               # Command-line interface for SQLite
+
+##### Brew install --casks
+
+## Browsers
+cask "firefox"               # Firefox web browser
+cask "google-chrome"         # Google Chrome web browser
+
+## Media
+cask "spotify"               # Spotify music streaming platform
+cask "vlc"                   # VLC media player
+
+## Fonts
+cask "font-fira-code"        # Monospaced font with programming ligatures
