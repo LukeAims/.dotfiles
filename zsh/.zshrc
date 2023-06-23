@@ -6,6 +6,7 @@
 
 export VISUAL="nvim"
 export GIT_EDITOR="nvim"
+export BROWSER="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 
 # Set preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
@@ -14,8 +15,8 @@ else
   export EDITOR="$VISUAL"
 fi
 
-# Browser
-export BROWSER="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+# Link Rubies to Homebrew's OpenSSL 1.1 (which is upgraded)
+export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
 
 # Enable colorized output
 export CLICOLOR="true"
@@ -207,10 +208,6 @@ autoload -U up-line-or-beginning-search
 autoload -U down-line-or-beginning-search
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
-# Bind up key to function
-bindkey "^[[A" up-line-or-beginning-search
-# Bind down key to function
-bindkey "^[[B" down-line-or-beginning-search
 
 ##############################################################################################################
 # ****                                            Set ls_colors                                         **** #
@@ -265,10 +262,15 @@ setopt share_history          # Share history between different instances of the
 
 # Vim keybindings
 bindkey -v
-# Bind the Alt (Option) key and the right arrow key to the end-of-line
-bindkey '^[^[[C' end-of-line
+
+# Bind up key to function
+bindkey "^[[A" up-line-or-beginning-search
+# Bind down key to function
+bindkey "^[[B" down-line-or-beginning-search
 # Bind the Alt (Option) key and the left arrow key to the beginning-of-line
 bindkey '^[^[[D' beginning-of-line
+# Bind the Alt (Option) key and the right arrow key to the end-of-line
+bindkey '^[^[[C' end-of-line
 # Bind the Option (Alt) key + Command (⌘) key + Right Arrow to forward-word
 bindkey '^[[1;9C' forward-word
 # Bind the Option (Alt) key + Command (⌘) key + Left Arrow to backward-word

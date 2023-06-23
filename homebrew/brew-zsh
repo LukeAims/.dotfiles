@@ -2,7 +2,8 @@
 
 # Install Zsh (if not already installed)
 if ! command -v zsh >/dev/null 2>&1; then
-    brew install zsh
+    echo "Installing zsh"
+    brew install zsh &&
     echo "Zsh installed."
 else
     echo "You already have zsh installed."

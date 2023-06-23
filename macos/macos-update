@@ -20,7 +20,7 @@ fi
 # The Brewfile handles Homebrew-based app and library installs, but there may
 # still be updates and installable's in the Mac App Store. So lets check...
 
-echo Running "› sudo softwareupdate -i -a"
+echo Running "› macOS softwareupdate"
 sudo softwareupdate -i -a
 
 # To test the install without installing anything uncomment this command and comment out the next command
