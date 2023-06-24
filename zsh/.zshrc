@@ -1,12 +1,6 @@
-#!/usr/bin/env zsh
-
 #############################################################################################################
 # ****                                     Environment Variables                                       **** #
 #############################################################################################################
-
-export VISUAL="nvim"
-export GIT_EDITOR="nvim"
-export BROWSER="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 
 # Set preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
@@ -14,16 +8,6 @@ if [[ -n $SSH_CONNECTION ]]; then
 else
   export EDITOR="$VISUAL"
 fi
-
-# Link Rubies to Homebrew's OpenSSL 1.1 (which is upgraded)
-export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
-
-# Enable colorized output
-export CLICOLOR="true"
-# Enabled true color support for terminals (nvim)
-export NVIM_TUI_ENABLE_TRUE_COLOR="1"
-# Display a wider range of colors (vim)
-export VIM_TUI_ENABLE_TRUE_COLOR="1"
 
 # Terminal
 export TERMINAL="iTerm2"
@@ -33,17 +17,6 @@ export TIMEFMT="%U user %S system %P cpu %*Es total"
 export KEYTIMEOUT="1"
 export ITERM_24BIT="1"
 export WORDCHARS='*?-[]~\!#%^(){}<>|`@#%^*()+:?'
-
-# Zsh-Autosuggest
-export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=240"
-export ZSH_AUTOSUGGEST_USE_ASYNC="1"
-export ZSH_AUTOSUGGEST_MANUAL_REBIND="1"
-export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE="1"
-export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
-
-# Set config location
-export BAT_CONFIG_PATH="$HOME/.config/bat/bat.conf"
-
 
 #############################################################################################################
 # ****                                     System Variables                                       **** #
@@ -64,7 +37,7 @@ ZSH_TMUX_AUTOCONNECT="true"
 ##############################################################################################################
 
 # Source aliases
-source "$HOME/.config/zsh/.aliases.zsh"
+source "$HOME/.aliases.zsh"
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/local/Cellar/zsh-syntax-highlighting/0.7.1/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
@@ -284,12 +257,18 @@ bindkey '^[[3;5~' kill-word
 # Bind the delete key to the delete-char
 bindkey '^[[3~' delete-char
 
+bindkey "^J" self-insert
+
 ##############################################################################################################
 # ****                                        Shell Integration                                         **** #
 ##############################################################################################################
 
 # iTerm2 Shell Integration
-test -e /Users/lukeaimson/.config/zsh/.iterm2_shell_integration.zsh && source /Users/lukeaimson/.config/zsh/.iterm2_shell_integration.zsh || true
+
+
+##############################################################################################################
+# ****                                           Miscellaneous                                          **** #
+##############################################################################################################
 
 # Display  neofetch on terminal start
 neofetch

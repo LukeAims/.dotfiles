@@ -1,0 +1,371 @@
+{
+  // --- Editor Settings ---
+  "editor.cursorStyle": "underline",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.multiCursorModifier": "ctrlCmd",
+  // --- Extensions Settings ---
+  "extensions.autoUpdate": "onlyEnabledExtensions",
+  "explorer.compactFolders": false,
+  "window.commandCenter": true,
+  "window.restoreFullscreen": true,
+  "livePreview.debugOnExternalPreview": true,
+  "focus.highlightRange": "indent",
+  "focus.opacity": "0.8",
+  //--- Git ---
+  "git-graph.graph.style": "angular",
+  "git.path": "/usr/local/bin/git",
+  //--- GitLens ---
+  "gitlens.graph.layout": "editor",
+  "gitlens.hovers.currentLine.over": "line",
+  "gitlens.defaultDateLocale": "system",
+  "gitlens.defaultDateFormat": "Do, MMMM, YYYY",
+  "gitlens.defaultDateShortFormat": "D/M/YYYY",
+  "gitlens.defaultTimeFormat": "H:m a",
+  "gitlens.statusBar.format": "${'ID='id }${'Authored by 'author', on the '}${authorDate}${' via 'pullRequest}${'    Latest commit was 'committerAgo}${'Changes 'changes}",
+  "gitlens.statusBar.alignment": "left",
+  "gitlens.statusBar.command": "gitlens.showCommitsInView",
+  "gitlens.graph.showRemoteNames": true,
+  "gitlens.views.branches.branches.layout": "list",
+  "gitlens.views.contributors.showAllBranches": true,
+  "gitlens.graph.dimMergeCommits": true,
+  "gitlens.graph.minimap.additionalTypes": [
+    "localBranches",
+    "stashes",
+    "remoteBranches",
+    "tags"
+  ],
+  // --- Prettier Settings ---
+  "prettier.bracketSameLine": true,
+  "prettier.enableDebugLogs": true,
+  "prettier.proseWrap": "always",
+  "prettier.singleAttributePerLine": true,
+  "prettier.configPath": "$HOME/.prettierrc",
+  //--- HTML Settings ---
+  "html.format.contentUnformatted": "pre,code,textarea",
+  "html.format.extraLiners": "head, body, /html",
+  // --- Terminal Settings ---
+  "terminal.integrated.fontSize": 14,
+  "terminal.integrated.fontFamily": "MesloLGL Nerd Font",
+  "terminal.integrated.shellIntegration.history": 1000,
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  "terminal.integrated.profiles.osx": {
+    "bash": {
+      "path": "bash",
+      "args": [
+        "-l"
+      ],
+      "icon": "terminal-bash"
+    },
+    "zsh": {
+      "path": "zsh",
+      "args": [
+        "-l"
+      ]
+    },
+    "fish": {
+      "path": "fish",
+      "args": [
+        "-l"
+      ]
+    },
+    "tmux": {
+      "path": "tmux",
+      "icon": "terminal-tmux"
+    },
+    "pwsh": {
+      "path": "pwsh",
+      "icon": "terminal-powershell"
+    }
+  },
+  // --- Theme and Color Settings ---
+  "workbench.colorTheme": "Dracula",
+  "workbench.iconTheme": "vscode-icons",
+  "workbench.productIconTheme": "material-product-icons",
+  "workbench.preferredHighContrastColorTheme": "Solarized Dark",
+  "workbench.preferredDarkColorTheme": "Dracula",
+  "workbench.fontAliasing": "auto",
+  "workbench.startupEditor": "newUntitledFile",
+  "workbench.trustedDomains.promptInTrustedWorkspace": true,
+  // --- File and Language Settings ---
+  "files.autoGuessEncoding": true,
+  "files.associations": {
+    "git-cheatsheat": "shellscript",
+    "gh-cheatsheet": "shellscript",
+    "dircolors": "properties",
+    "config": "properties",
+    "*.vim": "viml",
+    ".prettierignore": "properties",
+    ".tmux.conf": "properties",
+    ".inputrc": "properties",
+    ".screenrc": "properties",
+    ".wgetrc": "properties",
+    ".curlrc": "properties"
+  },
+  "workbench.editorAssociations": {
+    "*.sh": "default"
+  },
+  // --- Formatting and Language-Specific Settings ---
+  "[shellscript]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.python"
+  },
+  "emmet.preferences": {
+    "emmet.triggerExpansionOnTab": true
+  },
+  // --- Better comments settings ---
+  "better-comments.highlightPlainText": true,
+  "better-comments.tags": [
+    {
+      "tag": "!",
+      "color": "#FF2D00",
+      "strikethrough": false,
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": false,
+      "italic": false
+    },
+    {
+      "tag": "?",
+      "color": "#3498DB",
+      "strikethrough": false,
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": false,
+      "italic": true
+    },
+    {
+      "tag": "//",
+      "color": "#474747",
+      "strikethrough": true,
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": true,
+      "italic": false
+    },
+    {
+      "tag": "todo",
+      "color": "#FF8C00",
+      "strikethrough": false,
+      "underline": true,
+      "backgroundColor": "transparent",
+      "bold": false,
+      "italic": false
+    },
+    {
+      "tag": "*",
+      "color": "#98C379",
+      "strikethrough": false,
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": false,
+      "italic": false
+    }
+  ],
+  // --- Spell Checker Settings ---
+  "cSpell.language": "en,en-GB",
+  "cSpell.caseSensitive": true,
+  "cSpell.enableFiletypes": [
+    "bat",
+    "diff",
+    "dockercompose",
+    "dockerfile",
+    "hosts",
+    "ignore",
+    "lua",
+    "makefile",
+    "shellcheck-output",
+    "shellcheckrc",
+    "shellscript"
+  ],
+  // --- Spellcheck User Added Words ---
+  "cSpell.userWords": [
+    "addressbook",
+    "aimson",
+    "Aimson's",
+    "apdisk",
+    "appdir",
+    "appstore",
+    "ARCHFLAGS",
+    "AUTOCONNECT",
+    "autohide",
+    "autorestart",
+    "bindkey",
+    "Bitpool",
+    "builtins",
+    "cdpath",
+    "cfprefsd",
+    "Cheatsheet",
+    "chflags",
+    "chgrp",
+    "CLICOLOR",
+    "COMPDUMP",
+    "compinit",
+    "completeinword",
+    "configdir",
+    "curlrc",
+    "desktoppicture",
+    "desktopservices",
+    "devmode",
+    "disablelocal",
+    "diskimages",
+    "diskutil",
+    "displaysleep",
+    "dotfiles",
+    "dups",
+    "ecdsa",
+    "ehthumbs",
+    "execdir",
+    "fgrep",
+    "fpath",
+    "fseventsd",
+    "github",
+    "globbed",
+    "globbing",
+    "googlecode",
+    "gpgmail",
+    "gpgtools",
+    "helpviewer",
+    "hibernatemode",
+    "hilite",
+    "histignorespace",
+    "icns",
+    "inputrc",
+    "interactivecomments",
+    "irradiatedsoftware",
+    "iterm",
+    "itermcolors",
+    "Keychain",
+    "keygen",
+    "KEYTIMEOUT",
+    "killall",
+    "launchanim",
+    "libexec",
+    "linebreak",
+    "listallnetworkservices",
+    "listtimezones",
+    "loginwindow",
+    "longlistjobs",
+    "lscleanup",
+    "LSCOLORS",
+    "lsdot",
+    "lsregister",
+    "lukeaimson",
+    "Lukema",
+    "manpath",
+    "maxdepth",
+    "mdfind",
+    "mdutil",
+    "messageshelper",
+    "mineffect",
+    "neofetch",
+    "Neovim",
+    "netrwhist",
+    "networksetup",
+    "newrepo",
+    "Nlsv",
+    "nmcli",
+    "nocaseglob",
+    "nohidden",
+    "nohup",
+    "nonomatch",
+    "noshwordsplit",
+    "notificationcenterui",
+    "nslookup",
+    "nvim",
+    "oldlist",
+    "oneline",
+    "openssh",
+    "operasoftware",
+    "osascript",
+    "pacman",
+    "Pathbar",
+    "pbcopy",
+    "pbpaste",
+    "pgrep",
+    "pmset",
+    "powerlevel",
+    "Powerlevel",
+    "precmd",
+    "promptinit",
+    "pstree",
+    "pubkey",
+    "pyenv",
+    "recents",
+    "reflog",
+    "REPORTTIME",
+    "rwebrick",
+    "SAVEHIST",
+    "screencapture",
+    "screenrc",
+    "setcomputersleep",
+    "setopt",
+    "setremotelogin",
+    "setrestartfreeze",
+    "settimezone",
+    "shellenv",
+    "showhidden",
+    "SIGKILL",
+    "sleepimage",
+    "spotoff",
+    "standbydelay",
+    "strftime",
+    "swipescrolldirection",
+    "systempreferences",
+    "systemsetup",
+    "tapbots",
+    "tilesize",
+    "TIMEFMT",
+    "tmutil",
+    "traceroute",
+    "Tweetbot",
+    "unidecode",
+    "universalaccess",
+    "unsetopt",
+    "unshallow",
+    "Unstage",
+    "uptodate",
+    "userdel",
+    "usermod",
+    "vimrc",
+    "webrick",
+    "WEBSEARCH",
+    "webserver",
+    "wgetrc",
+    "whatis",
+    "whereis",
+    "whichshell",
+    "windowserver",
+    "WORDCHARS",
+    "wvous",
+    "xattr",
+    "zcompcache",
+    "zcompdump",
+    "ZDOTDIR",
+    "zhistory",
+    "zle",
+    "zmodload",
+    "zstyle"
+  ],
+  // --- Other Settings ---
+  "redhat.telemetry.enabled": false,
+  "[ignore]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  }
+}

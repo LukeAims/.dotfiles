@@ -57,6 +57,24 @@ Session.vim
 !.vscode/extensions.json
 *.code-workspace
 
+#### Zsh 
+
+# Zsh compiled script + zrecompile backup
+*.zwc
+*.zwc.old
+
+# Zsh completion-optimization dumpfile
+*zcompdump*
+
+# Zsh history
+.zsh_history
+
+# Zsh sessions
+.zsh_sessions
+
+# Zsh zcalc history
+.zcalc_history
+
 # Local History for Visual Studio Code
 .history/
 *.app

@@ -6,8 +6,6 @@
 
 alias shrug="echo '¯\_(ツ)_/¯' | pbcopy"
 
-# Change vim to nvim, (We can still access vim using `vi`)
-alias vim="nvim"
 # Get week number
 alias week="date +%V"
 # Stopwatch
