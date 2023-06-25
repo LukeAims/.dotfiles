@@ -18,6 +18,11 @@ export KEYTIMEOUT="1"
 export ITERM_24BIT="1"
 export WORDCHARS='*?-[]~\!#%^(){}<>|`@#%^*()+:?'
 
+# Initialize NVM (Node Version Manager) and setup completions
+export NVM_DIR="$HOME/.nvm"
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh"
+[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm"
+
 #############################################################################################################
 # ****                                     System Variables                                       **** #
 #############################################################################################################
@@ -97,7 +102,7 @@ setopt prompt_subst
 PROMPT='%F{green}%M %F{blue}%~ %F{red}${vcs_info_msg_0_}%f %F{green}\$ '
 
 ##############################################################################################################
-# ****                             Set Completion location and Settings                                 **** #
+# ****                                 Set Completions and Settings                                     **** #
 ##############################################################################################################
 
 # Configure cache file location (zcompdump)
@@ -264,7 +269,6 @@ bindkey "^J" self-insert
 ##############################################################################################################
 
 # iTerm2 Shell Integration
-
 
 ##############################################################################################################
 # ****                                           Miscellaneous                                          **** #

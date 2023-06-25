@@ -36,7 +36,10 @@ alias library="cd $HOME/Library"
 alias personal="$HOME/Documents/personal-projects"
 
 # Google Chrome
-# alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
+# alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
+
+# JavaScript shell scripting (JavaScriptCore)
+alias jsc="/System/Library/Frameworks/JavaScriptCore.framework/Versions/Current/Helpers/jsc"
 
 # *** Shell and system properties *** #
 
