@@ -205,9 +205,9 @@ alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && k
 command -v hd >/dev/null || alias hd="hexdump -C"
 
 # Automatically list directory content when changing directory
-cd() {
-    builtin cd "$@" && ls -la
-}
+#cd() {
+#    builtin cd "$@" && ls -la
+#}
 
 # *** Network information #
 

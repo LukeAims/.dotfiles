@@ -78,9 +78,6 @@
 [init]
   defaultBranch = main
 
-[include]
-	path = /Users/lukeaimson/.gitignore
-
 [push]
   default = current
 

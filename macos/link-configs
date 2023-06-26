@@ -19,55 +19,55 @@ gitdir=$HOME//.dotfiles/git
 olddir=$HOME/dotfiles_old  
 
 # List of files/devfiless to symlink into configdir        
-foldersConf="zsh bat neofetch"
+foldersConf=("bat" "gh" "neofetch")
 # List of files to be symlinked from ~/.dotfiles/development-configuration into homedir
-devfiles="eslintrc.js eslintignore prettierrc.json prettierignore editorconfig"
- # List of files/devfiless to symlink into homedir
-filesHome="bashrc bash_profile vim vimrc zshenv screenrc inputrc wgetrc curlrc"   
+devfiles=("eslintrc.js" "eslintignore" "prettierrc.json" "prettierignore" "editorconfig")
+# List of files/devfiless to symlink into homedir
+filesHome=("bashrc" "bash_profile" "vim" "vimrc" "zshenv" "screenrc" "inputrc" "wgetrc" "curlrc")
 
 ########## Symlinks
 
 # Create dotfiles_old in homedir
 echo -n "Creating $olddir for backup of any existing dotfiles in ~ ..."
-mkdir -p $olddir
+# mkdir -p "$olddir"
 echo "done"
 
 # Change to the dotfiles directory
 echo -n "Changing to the $dir directory ..."
-cd $dir
+cd "$dir"
 echo "done"
 
 # Move any existing dotfiles to dotfiles_old, then create symlinks from the $HOME to the files in our dotfiles directory
-for file in $filesHome; do
+for file in "${filesHome[@]}"; do
     echo "Moving any existing dotfiles from ~ to $olddir"
-    mv $HOME/.$file $HOME/dotfiles_old/
+    mv "$HOME/.$file" "$HOME/dotfiles_old/"
     echo "Creating symlink to $file in home directory."
-    ln -s $dir/$file $HOME/.$file
+    ln -s "$dir/$file" "$HOME/.$file"
 
     echo "Finished processing $file"
 done
 
 # Change to the dotfiles directory
 echo -n "Changing to the $devdir directory ..."
-cd $devdir
+cd "$devdir"
 echo "done"
 
-for dfile in $devdir; do
-     echo "Moving any existing dotfiles from ~ to $olddir"
-     mv $HOME/.$dfile $HOME/dotfiles_old/
-     echo "Creating symlink to $dfile in ~/.config directory."
-     ln -s $devdir/$dfile $HOME/.$dfile
+for dfile in "${devfiles[@]}"; do
+    echo "Moving any existing dotfiles from ~ to $olddir"
+    mv "$HOME/.$dfile" "$HOME/dotfiles_old/"
+    echo "Creating symlink to $dfile in $HOME."
+    ln -s "$devdir/$dfile" "$HOME/.$dfile"
 
     echo "Finished processing $dfile"
 done
 
-for cfile in $foldersConf; do
+for cfile in "${foldersConf[@]}"; do
     echo "Moving any existing dotfiles from ~ to $olddir"
-    mv $HOME/.config/$cfile $HOME/dotfiles_old/
-    ln -s  $dir/$cfile $HOME/.config/$cfile
+    mv "$HOME/.config/$cfile" "$HOME/dotfiles_old/"
+    ln -s "$dir/$cfile" "$HOME/.config/$cfile"
 
     echo "Creating symlink to $cfile in ~/.config directory."
 done
 
 # SSH Configuration Files
-ln -sfv "$HOME"/.dotfiles/config "$HOME"/.ssh
+ln -sfv "$HOME/.dotfiles/config" "$HOME/.ssh"
