@@ -1,0 +1,89 @@
+##############################################################################################################
+# ****                                         .bashrc Configuration                                    **** #
+##############################################################################################################
+
+# Load custom aliases
+# This checks if the .aliases.sh file exists and loads it, which is useful for loading custom command shortcuts.
+if [ -f "$HOME/.aliases.sh" ]; then
+    . "$HOME/.aliases.sh"
+fi
+
+# Load and initialize NVM (Node Version Manager)
+# NVM is used to manage Node.js versions. This section ensures that NVM is initialized.
+export NVM_DIR="$HOME/.nvm"
+if [ -s "/usr/local/opt/nvm/nvm.sh" ]; then
+    . "/usr/local/opt/nvm/nvm.sh"
+    . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"
+fi
+
+# Git Prompt Customization
+# Function to display Git branch and status in the prompt
+git_prompt_info() {
+    local ref
+    ref=$(git symbolic-ref HEAD 2>/dev/null) || return  # Get the current branch name
+
+    local branch=${ref#refs/heads/}  # Extract branch name from ref
+    local status=""
+
+    # Check for uncommitted changes
+    if git diff --quiet 2>/dev/null; then
+        status="✔"  # Clean working directory
+    else
+        status="✘"  # Uncommitted changes
+    fi
+
+    # Check for staged changes
+    if ! git diff --cached --quiet 2>/dev/null; then
+        status+="⚑"  # Staged changes
+    fi
+
+    # Check for unpushed commits
+    if git rev-list --left-right --count HEAD...@{u} 2>/dev/null | grep -q '^[0-9]*\s[0-9]*'; then
+        status+="↕"  # Diverged commits (ahead/behind)
+    fi
+
+    # Return the final branch and status string
+    echo "$branch$status"
+}
+
+# Set the Bash prompt (PS1)
+# Includes the hostname, current directory, and git status (if in a git repo)
+PS1='\[\e[0;32m\]\h \[\e[0;34m\]\w \[\e[0;33m\]$(git_prompt_info)\[\e[0;32m\] \$ \[\e[0m\]'
+
+# Initialize Bash Completion
+# This improves the tab completion feature in Bash
+if [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+fi
+
+# History Configuration
+# Set the location, size, and behavior of the history file
+HISTFILE="$HOME/.cache/bash/history/.bash_history"
+HISTSIZE=10000
+HISTFILESIZE=$HISTSIZE
+
+# Ensure history is appended to the history file, not overwritten
+shopt -s histappend
+
+# Save multi-line commands as a single entry in history
+shopt -s cmdhist
+
+# Update LINES and COLUMNS after each command (useful when resizing terminal)
+shopt -s checkwinsize
+
+# Enable recursive globbing with ** (e.g., `**/*.txt`)
+shopt -s globstar
+
+# Enable case-insensitive globbing and completion
+shopt -s nocaseglob
+bind "set completion-ignore-case on"
+
+# Key Bindings for History Search
+# Use arrow keys to search through command history
+bind '"\e[A": history-search-backward'
+bind '"\e[B": history-search-forward'
+
+# Display system information using Neofetch on terminal start, if installed
+if command -v neofetch >/dev/null 2>&1; then
+    neofetch
+fi
