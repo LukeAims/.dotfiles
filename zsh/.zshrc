@@ -1,278 +1,163 @@
-#############################################################################################################
-# ****                                     Environment Variables                                       **** #
-#############################################################################################################
+# ~/.zshrc - Zsh Configuration File
 
-# Set preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR="vim"
-else
-  export EDITOR="$VISUAL"
-fi
+# Load Zsh environment variables from ~/.zshenv
+source "$HOME/.zshenv"
 
-# Terminal
-export TERMINAL="iTerm2"
-export ITERM_24BIT="1"
-export REPORTTIME="2"
-export TIMEFMT="%U user %S system %P cpu %*Es total"
-export KEYTIMEOUT="1"
-export ITERM_24BIT="1"
-export WORDCHARS='*?-[]~\!#%^(){}<>|`@#%^*()+:?'
+# Load custom prompt configuration modules
+autoload -U colors && colors           # Load colors for prompt customization
+autoload -Uz vcs_info                  # Load version control system information (for Git)
+autoload -Uz promptinit                # Initialize prompt system
+promptinit                            # Start prompt system
 
-# Initialize NVM (Node Version Manager) and setup completions
-export NVM_DIR="$HOME/.nvm"
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh"
-[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm"
-
-#############################################################################################################
-# ****                                     System Variables                                       **** #
-#############################################################################################################
-
-# Homebrew install folder
-HOMEBREW_FOLDER="/usr/local/share"
-
-# TMUX Settings
-
-# Auto start tmux
-ZSH_TMUX_AUTOSTART="true"
-# Automatically connect to a previous session if it exists
-ZSH_TMUX_AUTOCONNECT="true"
-
-##############################################################################################################
-# ****                                        Required Sources                                          **** #
-##############################################################################################################
-
-# Source aliases
-source "$HOME/.aliases.zsh"
-source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/local/Cellar/zsh-syntax-highlighting/0.7.1/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-##############################################################################################################
-# ****                                      Load Custom Prompt                                          **** #
-##############################################################################################################
-
-# Load and configure the prompt system
-
-# Load colors module for prompt customization.
-autoload -U colors && colors
-
-# Load vcs_info module
-autoload -Uz vcs_info
-
-# Sets up the `precmd` function, , which is automatically executed before each prompt
-precmd() {
-  # Retrieves information about the version control status of the current directory
-  vcs_info
-}
-
-# Load prompt module
-autoload -Uz promptinit
-
-# Initialized prompt ready for customization.
-promptinit
-
-# Define prompt segments
-
-# Context segment shows username and hostname
+# Function to display context information (user@host)
 prompt_context() {
   if [[ -n $SSH_CONNECTION ]]; then
+    # Display username@hostname in yellow if connected via SSH
     prompt_segment yellow black "%(!.%{%F{red}%}.)%n@%m"
   else
+    # Display username@hostname in blue if local
     prompt_segment blue black "%n@%m"
   fi
 }
-# Git segment shows git branch and status
-prompt_git() {
-  prompt_segment green black "%(!.%{%F{red}%}.)%F{yellow}$(git_prompt_info)%f"
-}
-# Directory segment shows current directory
-prompt_dir() {
-  prompt_segment blue black "%F{blue}%~%f"
+
+# Function to generate and display Git prompt info
+git_prompt_info() {
+  # Retrieve the current branch name or return if not in a Git repository
+  local ref branch
+  ref=$(git symbolic-ref HEAD 2>/dev/null) || return  # Get the current branch reference
+  branch=${ref#refs/heads/}                           # Extract the branch name
+
+  # Initialize status variable
+  local status=""
+
+  # Check for uncommitted changes (working directory dirty)
+  if ! git diff --quiet 2>/dev/null; then
+    status="✘"  # Dirty working directory
+  fi
+
+  # Check for staged changes
+  if ! git diff --cached --quiet 2>/dev/null; then
+    status+="⚑"  # Staged changes present
+  fi
+
+  # Check for diverged commits (unpushed or unpulled)
+  if git rev-list --left-right --count HEAD...@{u} 2>/dev/null | grep -q '^[0-9]\+\s[0-9]\+'; then
+    status+="↕"  # Diverged branches (commits ahead/behind)
+  fi
+
+  # Default to clean if no status flags
+  [[ -z $status ]] && status="✔"
+
+  # Output the final branch and status
+  echo "$branch$status"
 }
 
-# Add prompt segments to prompt_functions array
+# Function to display Git branch and status in prompt
+prompt_git() {
+  # Display Git branch and status if in a Git repository
+  if git rev-parse --is-inside-work-tree &>/dev/null; then
+    prompt_segment green black "%F{yellow}$(git_prompt_info)%f"  # Show Git info in yellow
+  fi
+}
+
+# Function to display current directory in prompt
+prompt_dir() {
+  # Show current directory in blue
+  prompt_segment blue black "%~"
+}
+
+# Add custom prompt segments to the prompt
 prompt_functions+=(prompt_context prompt_git prompt_dir)
 
-# Customize vcs_info formats for git
-zstyle ":vcs_info:git:*" formats '%b'
+# Configure vcs_info for Git prompts
+zstyle ':vcs_info:git:*' formats '%b'  # Define how Git branch names are displayed
 
-# Allow command substitution and parameter expansion within the prompt string.
+# Allow command substitution and parameter expansion within the prompt string
 setopt prompt_subst
 
-# Define the prompt format
-PROMPT='%F{green}%M %F{blue}%~ %F{red}${vcs_info_msg_0_}%f %F{green}\$ '
+# Define the final prompt format combining context, Git info, and directory
+PROMPT='${prompt_context} ${prompt_git} ${prompt_dir} %F{green}\$ '
 
-##############################################################################################################
-# ****                                 Set Completions and Settings                                     **** #
-##############################################################################################################
+# Configure completion system
+ZSH_COMPDUMP="$HOME/.cache/zsh/zcompcache"       # Set directory for completion cache
+[[ -d $ZSH_COMPDUMP ]] || mkdir -p "$ZSH_COMPDUMP"  # Create cache directory if it doesn't exist
 
-# Configure cache file location (zcompdump)
-# Load and initialize the completion system ignoring insecure directories with a cache time of 20 hours,
-# so it should almost always regenerate the first time a shell is opened each day.
-ZSH_COMPDUMP="$HOME/.cache/zsh/zcompcache"
-
-# Create the parent directory if it doesn't exist
-[[ -d $ZSH_COMPDUMP ]] || mkdir -p "$ZSH_COMPDUMP"
-
+# Check and load or initialize completion cache
 _comp_files=($ZSH_COMPDUMP/zcompdump*(Nm-20^/))
 if (($#_comp_files)); then
-  autoload -Uz compinit -C -d "$ZSH_COMPDUMP/.zcompdump-${ZSH_VERSION}"
+  autoload -Uz compinit -C -d "$ZSH_COMPDUMP/.zcompdump-${ZSH_VERSION}"  # Load cached completion
 else
   autoload -Uz compinit
-  compinit -d "$ZSH_COMPDUMP/.zcompdump-${ZSH_VERSION}"
+  compinit -d "$ZSH_COMPDUMP/.zcompdump-${ZSH_VERSION}"  # Initialize and cache completion
 fi
-
-# `unset` allows us to customize the location of the cache file (zcompdump)
 unset _comp_files
 
-# Use case-insensitive globbing for file matching
-unsetopt case_glob
+# Use case-insensitive globbing (matching)
+unsetopt case_glob  # Disable case-sensitive globbing
 
-# Enable smart URL handling in the command line.
-autoload -Uz url-quote-magic
-zle -N self-insert url-quote-magic
+# Enable smart URL handling
+autoload -Uz url-quote-magic  # Automatically escape special characters in URLs
+zle -N self-insert url-quote-magic  # Bind URL quoting to self-insert
 
-# The following section sets up completion-related settings
+# Configure completion behavior
+zstyle ':completion:*' completer _list _oldlist _expand _complete _ignored _approximate  # Define completion methods
+zstyle ':completion:*' expand prefix suffix  # Expand completion prefixes and suffixes
+zstyle ':completion:*' group-name ''  # No grouping for completion items
+zstyle ':completion:*' list-colors ''  # Default colors for completion list
+zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s  # Prompt for more completion options
+zstyle ':completion:*' list-suffixes true  # Show suffixes for completion
+zstyle ':completion:*' matcher-list ''  # Default matchers for completion
+zstyle ':completion:*' max-errors 2 numeric  # Max errors for completion
+zstyle ':completion:*' menu select=1  # Use menu completion
+zstyle ':completion:*' prompt 'Attention: %e error(s) detected'  # Prompt message for errors
+zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s  # Scrolling prompt message
+zstyle ':completion:*' file-patterns '%p(D):globbed-files *(D-/):directories' '*(D):all-files'  # File pattern completion
+zstyle ':completion:*' verbose true  # Verbose completion messages
+zstyle ':completion:*:*:-command-:*:*' group-order builtins commands functions alias  # Command completion group order
+zstyle ':completion:*:messages' format ' %F{purple} -- %d --%f'  # Format for completion messages
+zstyle ':completion:*:warnings' format ' %F{red}-- no matches found --%f'  # Format for warning messages
 
-# Configure completion behavior using zstyle commands.
-zstyle ':completion:*' completer _list _oldlist _expand _complete _ignored _approximate
-zstyle ':completion:*' expand prefix suffix
-zstyle ':completion:*' group-name ''
-zstyle ':completion:*' list-colors ''
-zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
-zstyle ':completion:*' list-suffixes true
-zstyle ':completion:*' matcher-list ''
-zstyle ':completion:*' max-errors 2 numeric
-zstyle ':completion:*' menu select=1
-zstyle ':completion:*' prompt 'Attention: %e error(s) detected'
-zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
-zstyle ':completion:*' file-patterns '%p(D):globbed-files *(D-/):directories' '*(D):all-files'
-zstyle ':completion:*' verbose true
+# History settings
+HISTFILE="$HOME/.cache/zsh/history/.zhistory-${HOST_NAME}"  # Define path for history file
+[[ -d ${HISTFILE:h} ]] || mkdir -p ${HISTFILE:h}  # Create history file directory if it doesn't exist
+HIST_STAMPS="dd.mm.yyyy"  # Set timestamp format in history
+HISTSIZE=10000  # Maximum number of history entries
+SAVEHIST=$HISTSIZE  # Number of history entries to save
+fc -R  # Load history from file
 
-# Set the order of Command Completion Groups
-zstyle ':completion:*:*:-command-:*:*' group-order builtins commands functions alias
+# Better history searching
+autoload -U up-line-or-beginning-search  # Load history search up-line
+autoload -U down-line-or-beginning-search  # Load history search down-line
+zle -N up-line-or-beginning-search  # Bind up-line search
+zle -N down-line-or-beginning-search  # Bind down-line search
 
-# Set the colour for completion messages
-zstyle ':completion:*:messages' format ' %F{purple} -- %d --%f'
-zstyle ':completion:*:warnings' format ' %F{red}-- no matches found --%f'
+# Terminal settings
+unset LSCOLORS  # Unset default LSCOLORS
+export LSCOLORS='GxbxCHdxFxDxExBHdxcx'  # Set custom colors for ls command output
 
-##############################################################################################################
-# ****                                Set History Location and Settings                                 **** #
-##############################################################################################################
-
-# History Location
-HISTFILE="$HOME/.cache/zsh/history/.zhistory-${SHORT_COMPUTER_NAME}"
-
-# Create the parent directory if it doesn't exist
-[[ -d ${HISTFILE:h} ]] || {
-  zmodload -m -F zsh/files b:zf_mkdir
-  zf_mkdir -p ${HISTFILE:h}
-}
-
-# Set the history file
-HISTFILE="$HISTFILE"
-# You can set one of the optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications, (see 'man strftime' for details)
-HIST_STAMPS="dd.mm.yyyy"
-HISTSIZE=10000
-SAVEHIST=$HISTSIZE
-
-# Initialize the history
-fc -R
-
-# Better history (for previous commands)
-
-# Credits to https://coderwall.com/p/jpj_6q/zsh-better-history-searching-with-arrow-keys
-autoload -U up-line-or-beginning-search
-autoload -U down-line-or-beginning-search
-zle -N up-line-or-beginning-search
-zle -N down-line-or-beginning-search
-
-##############################################################################################################
-# ****                                            Set ls_colors                                         **** #
-##############################################################################################################
-
-# Avoid duplicates from other programs
-
-unset LSCOLORS
-
-export LSCOLORS='GxbxCHdxFxDxExBHdxcx'
-
-##############################################################################################################
-# ****                                           Set Options                                            **** #
-##############################################################################################################
-
-setopt complete_aliases       # Enables alias expansion during command-line completion.
-setopt always_to_end          # When completing a word, move the cursor to the end of the word
-setopt append_history         # This is default, but set for share_history
-setopt auto_cd                # `cd` by typing directory name if it's not a command
-setopt auto_list              # Automatically list choices on ambiguous completion
-setopt auto_menu              # Automatically use menu completion
-setopt auto_pushd             # Make cd push each old directory onto the stack
-setopt completeinword         # If unset, the cursor is set to the end of the word
-setopt correct_all            # Autocorrect commands
-setopt extended_glob          # Treat #, ~, and ^ as part of patterns for filename generation
-setopt extended_history       # Save each command's beginning timestamp and duration to the history file
-setopt glob_dots              # Dot files included in regular globs
-setopt hash_list_all          # When command completion is attempted, ensure the entire  path is hashed
-setopt hist_expire_dups_first # Delete duplicates first when HISTFILE size exceeds HISTSIZE
-setopt hist_find_no_dups      # When searching history don't show results already cycled through twice
-setopt hist_ignore_dups       # Do not write events to history that are duplicates of previous events
-setopt hist_ignore_space      # Remove command line from history list when first character is a space
-setopt hist_reduce_blanks     # Remove superfluous blanks from history items
-setopt hist_verify            # Show command with history expansion to user before running it
-setopt histignorespace        # Remove commands from the history when the first character is a space
-setopt inc_append_history     # Save history entries as soon as they are entered
-setopt interactivecomments    # Allow use of comments in interactive code (bash-style comments)
-setopt longlistjobs           # Display PID when suspending processes as well
-setopt no_beep                # Silence all bells and beeps
-setopt nocaseglob             # Global substitution is case insensitive hist
-setopt nonomatch              # Try to avoid the 'zsh: no matches found...'
-setopt noshwordsplit          # Use zsh style word splitting
-setopt notify                 # Report the status of backgrounds jobs immediately
-setopt numeric_glob_sort      # Globs sorted numerically
-setopt prompt_subst           # Allow expansion in prompts
-setopt pushd_ignore_dups      # Don't push duplicates onto the stack
-setopt share_history          # Share history between different instances of the shell
-
-##############################################################################################################
-# ****                                          Key Bindings                                            **** #
-##############################################################################################################
-
-# Vim keybindings
-bindkey -v
-
-# Bind up key to function
-bindkey "^[[A" up-line-or-beginning-search
-# Bind down key to function
-bindkey "^[[B" down-line-or-beginning-search
-# Bind the Alt (Option) key and the left arrow key to the beginning-of-line
-bindkey '^[^[[D' beginning-of-line
-# Bind the Alt (Option) key and the right arrow key to the end-of-line
-bindkey '^[^[[C' end-of-line
-# Bind the Option (Alt) key + Command (⌘) key + Right Arrow to forward-word
-bindkey '^[[1;9C' forward-word
-# Bind the Option (Alt) key + Command (⌘) key + Left Arrow to backward-word
-bindkey '^[[1;9D' backward-word
-# Bind the Command (⌘) key and the up arrow key to the beginning-of-buffer-or-history
-bindkey '^[[1;5A' beginning-of-buffer-or-history
-# Bind the Command (⌘) key and the down arrow key to the end-of-buffer-or-history
-bindkey '^[[1;5B' end-of-buffer-or-history
-# Bind the Command (⌘) key and the delete key to the kill-word
-bindkey '^[[3;5~' kill-word
-# Bind the delete key to the delete-char
-bindkey '^[[3~' delete-char
-
-bindkey "^J" self-insert
-
-##############################################################################################################
-# ****                                        Shell Integration                                         **** #
-##############################################################################################################
-
-# iTerm2 Shell Integration
-
-##############################################################################################################
-# ****                                           Miscellaneous                                          **** #
-##############################################################################################################
-
-# Display  neofetch on terminal start
-neofetch
+# Shell options
+setopt complete_aliases             # Complete aliases
+setopt always_to_end                # Cursor to end of command line before history substitution
+setopt append_history               # Append history to file, not overwrite
+setopt auto_cd                      # Automatically change directory when only a path is entered
+setopt auto_list                    # Automatically list choices on ambiguous completion
+setopt auto_menu                    # Use a completion menu
+setopt auto_pushd                   # Automatically pushd to directory stack
+setopt completeinword               # Allow completion within a word
+setopt correct_all                  # Correct command spelling
+setopt extended_glob                # Enable extended globbing patterns
+setopt extended_history             # Save timestamps in history
+setopt glob_dots                    # Include dotfiles in globbing patterns
+setopt hash_list_all                # Hash all commands in the path
+setopt hist_expire_dups_first       # Expire duplicate entries first when trimming history
+setopt hist_find_no_dups            # Do not display duplicates in history search
+setopt hist_ignore_dups             # Do not record duplicates in history
+setopt hist_ignore_space            # Do not record commands with leading space in history
+setopt hist_reduce_blanks           # Remove extra blanks from history entries
+setopt hist_verify                  # Show command before executing after history expansion
+setopt histignorespace              # Ignore commands with leading spaces in history
+setopt inc_append_history           # Append history incrementally
+setopt interactivecomments          # Allow comments in interactive shell
+setopt longlistjobs                 # List jobs in long format
+setopt no_beep                      # Disable beep on error
+setopt prompt_subst                 # Allow prompt substitution
