@@ -10,7 +10,9 @@ export ARCHFLAGS="-arch x86_64"  # Used for compiling software on macOS (Intel a
 
 # XDG Base Directories (Standardising paths)
 export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_CACHE_HOME="$HOME/.cache" 
+
+# XDG User Directories Specification
 export XDG_DESKTOP_DIR="$HOME/Desktop"
 export XDG_DOCUMENTS_DIR="$HOME/Documents"
 export XDG_DOWNLOAD_DIR="$HOME/Downloads"
