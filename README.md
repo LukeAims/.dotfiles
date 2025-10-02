@@ -2,10 +2,6 @@
 <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNDQ1NjI2NDY0MWJiOGE1NWMwMWI2OTFkY2U0ZDgwNmFmZGI5ZmM3YyZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/Bzzb92NKwUOj0FjQOd/giphy.gif">
 </p>  
 
-# ⛔ WARNING
-
-## PLEASE DON'T USE THESE DOTFILES, AS YET THEY ARE UNFINISHED AND I STILL HAVE WORK TO DO ON SETTING UP THE INSTALL SCRIPTS! WHEN THE SCRIPTS ARE COMPLETE I WILL REMOVE THIS MESSAGE.  
- 
 # 🤖 Dotfiles  
   
 ![Version](https://img.shields.io/badge/Dotfiles%3A-Version%201.0-blue) &nbsp;
