@@ -1,163 +1,167 @@
-# ~/.zshrc - Zsh Configuration File
+# Interactive shell configuration embracing 2025 best practices.
 
-# Load Zsh environment variables from ~/.zshenv
-source "$HOME/.zshenv"
+emulate -LR zsh
 
-# Load custom prompt configuration modules
-autoload -U colors && colors           # Load colors for prompt customization
-autoload -Uz vcs_info                  # Load version control system information (for Git)
-autoload -Uz promptinit                # Initialize prompt system
-promptinit                            # Start prompt system
+# --------------------------------------------------------------------------------------
+# Directories and helper functions
+# --------------------------------------------------------------------------------------
+: "${ZDOTDIR:=${HOME}/.config/zsh}"
+: "${XDG_CACHE_HOME:=${HOME}/.cache}"
 
-# Function to display context information (user@host)
-prompt_context() {
-  if [[ -n $SSH_CONNECTION ]]; then
-    # Display username@hostname in yellow if connected via SSH
-    prompt_segment yellow black "%(!.%{%F{red}%}.)%n@%m"
-  else
-    # Display username@hostname in blue if local
-    prompt_segment blue black "%n@%m"
-  fi
+ZSH_CACHE_DIR="${XDG_CACHE_HOME}/zsh"
+ZSH_CACHE_COMPLETIONS_DIR="${ZSH_CACHE_DIR}/completions"
+ZSH_CACHE_HISTORY_DIR="${ZSH_CACHE_DIR}/history"
+ZSH_CACHE_PLUGIN_FILE="${ZSH_CACHE_DIR}/antidote/plugins.zsh"
+
+mkdir -p "$ZSH_CACHE_COMPLETIONS_DIR" "$ZSH_CACHE_HISTORY_DIR" "${ZSH_CACHE_PLUGIN_FILE:h}"
+
+command_exists() {
+  command -v "$1" >/dev/null 2>&1
 }
 
-# Function to generate and display Git prompt info
-git_prompt_info() {
-  # Retrieve the current branch name or return if not in a Git repository
-  local ref branch
-  ref=$(git symbolic-ref HEAD 2>/dev/null) || return  # Get the current branch reference
-  branch=${ref#refs/heads/}                           # Extract the branch name
+[[ -d "$HOME/.dotfiles/functions" ]] && fpath=("$HOME/.dotfiles/functions" $fpath)
 
-  # Initialize status variable
-  local status=""
+# --------------------------------------------------------------------------------------
+# Options
+# --------------------------------------------------------------------------------------
+setopt auto_cd autopushd pushd_ignore_dups pushdminus
+setopt extended_glob interactivecomments prompt_subst
+setopt nocaseglob nobeep
+setopt complete_aliases menu_complete auto_menu auto_param_slash
+setopt hist_ignore_all_dups hist_reduce_blanks hist_verify
+setopt hist_ignore_space share_history inc_append_history extended_history
+setopt notify numeric_glob_sort longlistjobs
 
-  # Check for uncommitted changes (working directory dirty)
-  if ! git diff --quiet 2>/dev/null; then
-    status="✘"  # Dirty working directory
-  fi
+unsetopt flow_control
 
-  # Check for staged changes
-  if ! git diff --cached --quiet 2>/dev/null; then
-    status+="⚑"  # Staged changes present
-  fi
+# --------------------------------------------------------------------------------------
+# Completion setup
+# --------------------------------------------------------------------------------------
+autoload -Uz compinit bashcompinit
+zmodload zsh/complist
 
-  # Check for diverged commits (unpushed or unpulled)
-  if git rev-list --left-right --count HEAD...@{u} 2>/dev/null | grep -q '^[0-9]\+\s[0-9]\+'; then
-    status+="↕"  # Diverged branches (commits ahead/behind)
-  fi
-
-  # Default to clean if no status flags
-  [[ -z $status ]] && status="✔"
-
-  # Output the final branch and status
-  echo "$branch$status"
-}
-
-# Function to display Git branch and status in prompt
-prompt_git() {
-  # Display Git branch and status if in a Git repository
-  if git rev-parse --is-inside-work-tree &>/dev/null; then
-    prompt_segment green black "%F{yellow}$(git_prompt_info)%f"  # Show Git info in yellow
-  fi
-}
-
-# Function to display current directory in prompt
-prompt_dir() {
-  # Show current directory in blue
-  prompt_segment blue black "%~"
-}
-
-# Add custom prompt segments to the prompt
-prompt_functions+=(prompt_context prompt_git prompt_dir)
-
-# Configure vcs_info for Git prompts
-zstyle ':vcs_info:git:*' formats '%b'  # Define how Git branch names are displayed
-
-# Allow command substitution and parameter expansion within the prompt string
-setopt prompt_subst
-
-# Define the final prompt format combining context, Git info, and directory
-PROMPT='${prompt_context} ${prompt_git} ${prompt_dir} %F{green}\$ '
-
-# Configure completion system
-ZSH_COMPDUMP="$HOME/.cache/zsh/zcompcache"       # Set directory for completion cache
-[[ -d $ZSH_COMPDUMP ]] || mkdir -p "$ZSH_COMPDUMP"  # Create cache directory if it doesn't exist
-
-# Check and load or initialize completion cache
-_comp_files=($ZSH_COMPDUMP/zcompdump*(Nm-20^/))
-if (($#_comp_files)); then
-  autoload -Uz compinit -C -d "$ZSH_COMPDUMP/.zcompdump-${ZSH_VERSION}"  # Load cached completion
+if [[ -r $ZSH_CACHE_COMPLETIONS_DIR/zcompdump-${ZSH_VERSION} ]]; then
+  compinit -d "$ZSH_CACHE_COMPLETIONS_DIR/zcompdump-${ZSH_VERSION}" -C
 else
-  autoload -Uz compinit
-  compinit -d "$ZSH_COMPDUMP/.zcompdump-${ZSH_VERSION}"  # Initialize and cache completion
+  compinit -d "$ZSH_CACHE_COMPLETIONS_DIR/zcompdump-${ZSH_VERSION}"
 fi
-unset _comp_files
 
-# Use case-insensitive globbing (matching)
-unsetopt case_glob  # Disable case-sensitive globbing
+# Enable bash completions when available (brew installs many here).
+if [[ -d /opt/homebrew/etc/bash_completion.d ]] || [[ -d /usr/local/etc/bash_completion.d ]]; then
+  bashcompinit
+  __BASHCOMPINIT_DONE=1
+fi
 
-# Enable smart URL handling
-autoload -Uz url-quote-magic  # Automatically escape special characters in URLs
-zle -N self-insert url-quote-magic  # Bind URL quoting to self-insert
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}' 'r:|[._-]=* r:|=*'
+zstyle ':completion:*' group-name ''
+if [[ -n ${LS_COLORS:-} ]]; then
+  zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"  # Re-use dircolors if present.
+fi
 
-# Configure completion behavior
-zstyle ':completion:*' completer _list _oldlist _expand _complete _ignored _approximate  # Define completion methods
-zstyle ':completion:*' expand prefix suffix  # Expand completion prefixes and suffixes
-zstyle ':completion:*' group-name ''  # No grouping for completion items
-zstyle ':completion:*' list-colors ''  # Default colors for completion list
-zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s  # Prompt for more completion options
-zstyle ':completion:*' list-suffixes true  # Show suffixes for completion
-zstyle ':completion:*' matcher-list ''  # Default matchers for completion
-zstyle ':completion:*' max-errors 2 numeric  # Max errors for completion
-zstyle ':completion:*' menu select=1  # Use menu completion
-zstyle ':completion:*' prompt 'Attention: %e error(s) detected'  # Prompt message for errors
-zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s  # Scrolling prompt message
-zstyle ':completion:*' file-patterns '%p(D):globbed-files *(D-/):directories' '*(D):all-files'  # File pattern completion
-zstyle ':completion:*' verbose true  # Verbose completion messages
-zstyle ':completion:*:*:-command-:*:*' group-order builtins commands functions alias  # Command completion group order
-zstyle ':completion:*:messages' format ' %F{purple} -- %d --%f'  # Format for completion messages
-zstyle ':completion:*:warnings' format ' %F{red}-- no matches found --%f'  # Format for warning messages
+# --------------------------------------------------------------------------------------
+# History configuration
+# --------------------------------------------------------------------------------------
+HISTFILE="$ZSH_CACHE_HISTORY_DIR/${HOST_NAME:-$HOST}.zhistory"
+HISTSIZE=50000
+SAVEHIST=50000
 
-# History settings
-HISTFILE="$HOME/.cache/zsh/history/.zhistory-${HOST_NAME}"  # Define path for history file
-[[ -d ${HISTFILE:h} ]] || mkdir -p ${HISTFILE:h}  # Create history file directory if it doesn't exist
-HIST_STAMPS="dd.mm.yyyy"  # Set timestamp format in history
-HISTSIZE=10000  # Maximum number of history entries
-SAVEHIST=$HISTSIZE  # Number of history entries to save
-fc -R  # Load history from file
+# Use better history search bindings.
+autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^P" up-line-or-beginning-search
+bindkey "^N" down-line-or-beginning-search
 
-# Better history searching
-autoload -U up-line-or-beginning-search  # Load history search up-line
-autoload -U down-line-or-beginning-search  # Load history search down-line
-zle -N up-line-or-beginning-search  # Bind up-line search
-zle -N down-line-or-beginning-search  # Bind down-line search
+# --------------------------------------------------------------------------------------
+# Prompt configuration (Starship first, modern fallback otherwise)
+# --------------------------------------------------------------------------------------
+if command_exists starship; then
+  eval "$(starship init zsh)"
+else
+  autoload -Uz colors vcs_info add-zsh-hook promptinit
+  colors
+  promptinit
 
-# Terminal settings
-unset LSCOLORS  # Unset default LSCOLORS
-export LSCOLORS='GxbxCHdxFxDxExBHdxcx'  # Set custom colors for ls command output
+  zstyle ':vcs_info:*' enable git
+  zstyle ':vcs_info:git:*' formats '%F{yellow} %b%f%F{red}%u%f%F{green}%c%f'
+  zstyle ':vcs_info:git:*' actionformats '%F{yellow} %b|%a%f'
+  zstyle ':vcs_info:*' check-for-changes true
 
-# Shell options
-setopt complete_aliases             # Complete aliases
-setopt always_to_end                # Cursor to end of command line before history substitution
-setopt append_history               # Append history to file, not overwrite
-setopt auto_cd                      # Automatically change directory when only a path is entered
-setopt auto_list                    # Automatically list choices on ambiguous completion
-setopt auto_menu                    # Use a completion menu
-setopt auto_pushd                   # Automatically pushd to directory stack
-setopt completeinword               # Allow completion within a word
-setopt correct_all                  # Correct command spelling
-setopt extended_glob                # Enable extended globbing patterns
-setopt extended_history             # Save timestamps in history
-setopt glob_dots                    # Include dotfiles in globbing patterns
-setopt hash_list_all                # Hash all commands in the path
-setopt hist_expire_dups_first       # Expire duplicate entries first when trimming history
-setopt hist_find_no_dups            # Do not display duplicates in history search
-setopt hist_ignore_dups             # Do not record duplicates in history
-setopt hist_ignore_space            # Do not record commands with leading space in history
-setopt hist_reduce_blanks           # Remove extra blanks from history entries
-setopt hist_verify                  # Show command before executing after history expansion
-setopt histignorespace              # Ignore commands with leading spaces in history
-setopt inc_append_history           # Append history incrementally
-setopt interactivecomments          # Allow comments in interactive shell
-setopt longlistjobs                 # List jobs in long format
-setopt no_beep                      # Disable beep on error
-setopt prompt_subst                 # Allow prompt substitution
+  prompt_precmd() {
+    vcs_info
+  }
+  add-zsh-hook precmd prompt_precmd
+
+  PROMPT='%B%F{cyan}%n@%m%f%b %F{blue}%~%f ${vcs_info_msg_0_}%f%b%F{green}❯%f '
+  RPROMPT='%F{245}%*%f'
+fi
+
+# --------------------------------------------------------------------------------------
+# Plugin management with Antidote (fast, lazy-loading)
+# --------------------------------------------------------------------------------------
+ANTIDOTE_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/antidote"
+if ! [[ -r $ANTIDOTE_HOME/antidote.zsh ]]; then
+  if command_exists git; then
+    mkdir -p "${ANTIDOTE_HOME:h}" && \
+      git clone --depth=1 https://github.com/mattmc3/antidote.git "$ANTIDOTE_HOME" >/dev/null 2>&1 || true
+  fi
+fi
+
+if [[ -r $ANTIDOTE_HOME/antidote.zsh ]]; then
+  source "$ANTIDOTE_HOME/antidote.zsh"
+  typeset -ga ZSH_PLUGIN_BUNDLE=(
+    zsh-users/zsh-completions
+    zsh-users/zsh-autosuggestions
+    zdharma-continuum/fast-syntax-highlighting
+  )
+  if [[ ! -s $ZSH_CACHE_PLUGIN_FILE || $ANTIDOTE_HOME/antidote.zsh -nt $ZSH_CACHE_PLUGIN_FILE ]]; then
+    antidote bundle "${ZSH_PLUGIN_BUNDLE[@]}" >| "$ZSH_CACHE_PLUGIN_FILE"
+  fi
+  source "$ZSH_CACHE_PLUGIN_FILE"
+fi
+
+# --------------------------------------------------------------------------------------
+# Tool-specific integrations
+# --------------------------------------------------------------------------------------
+if command_exists fzf; then
+  [[ -r /opt/homebrew/opt/fzf/shell/key-bindings.zsh ]] && source /opt/homebrew/opt/fzf/shell/key-bindings.zsh
+  [[ -r /opt/homebrew/opt/fzf/shell/completion.zsh ]] && source /opt/homebrew/opt/fzf/shell/completion.zsh
+  [[ -r /usr/share/doc/fzf/examples/key-bindings.zsh ]] && source /usr/share/doc/fzf/examples/key-bindings.zsh
+  [[ -r /usr/share/doc/fzf/examples/completion.zsh ]] && source /usr/share/doc/fzf/examples/completion.zsh
+fi
+
+if command_exists kubectl; then
+  (( $+functions[bashcompinit] )) || autoload -Uz bashcompinit
+  if [[ -z ${__BASHCOMPINIT_DONE:-} ]]; then
+    bashcompinit 2>/dev/null || true
+    __BASHCOMPINIT_DONE=1
+  fi
+  source <(kubectl completion zsh) >/dev/null 2>&1
+fi
+
+# --------------------------------------------------------------------------------------
+# Load aliases and functions
+# --------------------------------------------------------------------------------------
+[[ -f "$ZDOTDIR/.aliases.zsh" ]] && source "$ZDOTDIR/.aliases.zsh"
+autoload -U +X source_if_exists 2>/dev/null
+
+# --------------------------------------------------------------------------------------
+# Misc quality-of-life tweaks
+# --------------------------------------------------------------------------------------
+# Highlight the matching bracket momentarily.
+if zmodload zsh/complist 2>/dev/null; then
+  zstyle ':completion:*' list-prompt '%SScrolling active: current selection at %p%s'
+fi
+
+# Use vim-style keybindings by default.
+bindkey -v
+
+# Automatically fix simple directory typos.
+setopt correct
+
+# Print a friendly header the first time an interactive shell is opened per session.
+if [[ -z $ZSH_SESSION_INITIALIZED ]]; then
+  export ZSH_SESSION_INITIALIZED=1
+  print -P "%F{244}Welcome back, %n! Loaded modern shell profile on %D{%Y-%m-%d}.%f"
+fi
