@@ -1,41 +1,71 @@
-##############################################################################################################
-# ****                        Configure PATH Variables and Program Environments                         **** #
-##############################################################################################################
+# Modern login-shell configuration for zsh
+# Only login/session wide environment should be configured here.
 
-# Enforce uniqueness of data in arrays.
-# zsh uses $path array along with $PATH and keeps them in sync
-typeset -U PATH path cdpath fpath manpath
+emulate -LR zsh
 
-# Manually set the PATH scalar variable (Default path)
-export PATH="/usr/bin:/bin:/usr/sbin:/sbin"
+# Ensure arrays keep unique values.
+typeset -Ug path fpath cdpath manpath
 
-# Remove duplicate entries for $PATH
-PATH="$(perl -e 'print join(":", grep { not $seen{$_}++ } split(/:/, $ENV{PATH}))')"
+# Base search paths (order matters).
+path=(
+  /opt/homebrew/bin
+  /opt/homebrew/sbin
+  /usr/local/bin
+  /usr/local/sbin
+  /usr/bin
+  /bin
+  /usr/sbin
+  /sbin
+  "$HOME/.local/bin"
+  "$HOME/bin"
+  "$path[@]"
+)
 
-# Prepend homebrew installed packaged to the PATH variable
-export PATH=/usr/local/bin:${PATH}
+# Deduplicate while preserving order.
+typeset -U path
+export PATH
 
-# Store shell functions and scripts that you want to append to your path 
-export PATH="$PATH:$HOME/.local/bin"
+# Homebrew support (both Intel and Apple Silicon).
+if command -v brew >/dev/null 2>&1; then
+  # shellcheck disable=SC1090
+  eval "$(brew shellenv)"
+fi
 
-# Set up the necessary environment variables for Homebrew
-eval "$(/usr/local/bin/brew shellenv)"
+# mise / asdf style runtime managers (2025 recommendation).
+if command -v mise >/dev/null 2>&1; then
+  eval "$(mise activate zsh)"
+elif command -v asdf >/dev/null 2>&1; then
+  # shellcheck disable=SC1090
+  . "$(asdf dir)/asdf.sh"
+elif [[ -d $HOME/.asdf ]]; then
+  # shellcheck disable=SC1091
+  . "$HOME/.asdf/asdf.sh"
+fi
 
-# Initialize rbenv and set up the necessary environment variables for Ruby version management
-eval "$(rbenv init - zsh)"
+# direnv integration for project-level environments.
+if command -v direnv >/dev/null 2>&1; then
+  eval "$(direnv hook zsh)"
+fi
 
-# **** FPATH Variables **** #
+# zoxide for smarter cd if available.
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"
+fi
 
+# FPATH additions for completion definitions shipped by package managers.
+for completion_dir in \
+  /opt/homebrew/share/zsh/site-functions \
+  /usr/local/share/zsh/site-functions \
+  "$HOME/.local/share/zsh/site-functions"; do
+  [[ -d $completion_dir ]] || continue
+  fpath=($completion_dir $fpath)
+done
 
-##############################################################################################################
-# ****                                    Extracting and Formatting                                     **** #
-##############################################################################################################
+export FPATH
 
-# Define computer name, so we can pass it to a variable and extract a shortened version
-COMPUTER_NAME=$(scutil --get ComputerName)
-# Cut the first three characters of computer name
-FIRST_THREE=$(echo "$COMPUTER_NAME" | cut -c 1-3)
-# Cut the ninth and thirteenth characters of computer name
-SIXTEEN_EIGHTEEN=$(echo "$SHELL" | cut -c 16-18)
-# Convert the extracted characters to lowercase and store in a variable
-SHORT_COMPUTER_NAME="${(L)FIRST_THREE}.${(L)SIXTEEN_EIGHTEEN}"
+# macOS specific defaults.
+if [[ $OS_KIND == macos ]]; then
+  typeset -gx BROWSER="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+  typeset -gx HOMEBREW_CASK_OPTS='--appdir=~/Applications --fontdir=/Library/Fonts'
+  typeset -gx HOMEBREW_NO_ANALYTICS=1
+fi
