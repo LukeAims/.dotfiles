@@ -84,3 +84,10 @@ Session.vim
 .prettierignore
 .prettierrc
 settings.json
+
+# SSH config files
+config
+known_hosts
+authorized_keys
+id_rsa
+id_rsa.pub
